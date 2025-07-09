@@ -19,7 +19,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-300 text-sm leading-relaxed max-w-md">
-              Providing comprehensive healthcare services to the Nairobi community with 
+              Providing comprehensive healthcare services to the Kisumu community with 
               professional care, modern facilities, and a commitment to your wellbeing.
             </p>
           </div>
@@ -57,7 +57,7 @@ const Footer = () => {
               </div>
               <div className="flex items-start space-x-2 text-sm">
                 <MapPin className="h-4 w-4 text-medical-orange mt-0.5" />
-                <span className="text-gray-300">P.O. Box 61413-00200<br />Nairobi, Kenya</span>
+                <span className="text-gray-300">P.O. Box 61413-00200<br />Kisumu, Kenya</span>
               </div>
               <div className="flex items-center space-x-2 text-sm">
                 <Clock className="h-4 w-4 text-medical-orange" />

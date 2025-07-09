@@ -1,4 +1,3 @@
-
 import { ArrowRight, Phone, Users, Award, Clock, CheckCircle, Heart, Stethoscope, Baby, FlaskConical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -57,7 +56,7 @@ const Index = () => {
                 <span className="text-medical-blue block">Enriching Lives</span>
               </h1>
               <p className="text-xl text-medical-gray mb-8 leading-relaxed">
-                Your trusted healthcare partner in Nairobi. We provide comprehensive medical services 
+                Your trusted healthcare partner in Kisumu. We provide comprehensive medical services 
                 with compassionate care, modern facilities, and experienced professionals.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">

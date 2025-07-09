@@ -22,7 +22,7 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Address",
-      details: "P.O. Box 61413-00200, Nairobi",
+      details: "P.O. Box 61413-00200, Kisumu",
       description: "Our mailing address",
       action: null
     },
