@@ -164,7 +164,7 @@ const Contact = () => {
                       id="firstName"
                       name="firstName"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
+                      className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue"
                       placeholder="Your first name"
                     />
                   </div>
@@ -177,7 +177,7 @@ const Contact = () => {
                       id="lastName"
                       name="lastName"
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
+                      className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue"
                       placeholder="Your last name"
                     />
                   </div>
@@ -192,7 +192,7 @@ const Contact = () => {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
+                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -205,7 +205,7 @@ const Contact = () => {
                     type="tel"
                     id="phone"
                     name="phone"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
+                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue"
                     placeholder="+254 xxx xxx xxx"
                   />
                 </div>
@@ -218,7 +218,7 @@ const Contact = () => {
                     id="subject"
                     name="subject"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
+                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue"
                   >
                     <option value="">Select a subject</option>
                     <option value="appointment">Appointment Booking</option>
@@ -238,7 +238,7 @@ const Contact = () => {
                     name="message"
                     required
                     rows={5}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
+                    className="w-full rounded-lg border border-input bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue"
                     placeholder="Please describe your inquiry or concern..."
                   ></textarea>
                 </div>
@@ -329,7 +329,7 @@ const Contact = () => {
               asChild 
               variant="outline" 
               size="lg" 
-              className="border-medical-blue/30 text-medical-blue hover:bg-white px-8 py-6 text-lg"
+              className="border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue px-8 py-6 text-lg"
             >
               <a href="mailto:info@skylifemedicalclinic.com" className="flex items-center justify-center space-x-2">
                 <Mail className="h-5 w-5" />

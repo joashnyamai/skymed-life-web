@@ -7,6 +7,7 @@
 
 @layer base {
   :root {
+    color-scheme: light;
     --brand-blue: 202 96% 40%;
     --brand-blue-soft: 202 100% 95%;
     --brand-blue-deep: 202 96% 36%;
@@ -56,6 +57,7 @@
   }
 
   .dark {
+    color-scheme: dark;
     --brand-blue: 202 85% 42%;
     --brand-blue-soft: 202 70% 14%;
     --brand-blue-deep: 202 90% 34%;

@@ -202,7 +202,7 @@ const Blog = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Stay Updated with Health Tips
           </h2>
-          <p className="text-xl text-white/85 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Get the latest health articles, wellness tips, and medical insights delivered to your inbox.
           </p>
           <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
@@ -218,7 +218,7 @@ const Blog = () => {
               Subscribe
             </button>
           </form>
-          <p className="mt-3 text-sm text-white/80">Your email app will open so you can send the subscription request.</p>
+          <p className="mt-3 text-sm text-muted-foreground">Your email app will open so you can send the subscription request.</p>
         </div>
       </div>
     </div>

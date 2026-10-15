@@ -8,13 +8,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Heart } from 'lucide-react';
+import { Eye, EyeOff, Heart } from 'lucide-react';
 import { isFirebaseConfigured } from '@/integrations/firebase/client';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showSignInPassword, setShowSignInPassword] = useState(false);
+  const [showSignUpPassword, setShowSignUpPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
   const [registrationComplete, setRegistrationComplete] = useState(false);
@@ -108,11 +111,6 @@ const Auth = () => {
               Firebase is not configured yet. Add the Firebase project values to your local .env file to enable sign-in.
             </p>
           )}
-          {isFirebaseConfigured && (
-            <p className="mb-4 rounded-lg bg-medical-lightBlue p-3 text-sm text-medical-blue" role="note">
-              No-cost setup: after signup, set the account UID in VITE_FIREBASE_ADMIN_UID and firestore.rules before signing in.
-            </p>
-          )}
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'signin' | 'signup')} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
@@ -130,14 +128,25 @@ const Auth = () => {
                     required
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <Input
-                    type="password"
+                    type={showSignInPassword ? 'text' : 'password'}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
+                    autoComplete="current-password"
+                    className="pr-12"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowSignInPassword((visible) => !visible)}
+                    className="absolute inset-y-0 right-0 flex items-center px-3 text-medical-blue hover:text-medical-orange"
+                    aria-label={showSignInPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showSignInPassword}
+                  >
+                    {showSignInPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
+                  </button>
                 </div>
                 <Button 
                   type="submit" 
@@ -160,26 +169,47 @@ const Auth = () => {
                     required
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <Input
-                    type="password"
+                    type={showSignUpPassword ? 'text' : 'password'}
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     minLength={6}
+                    autoComplete="new-password"
+                    className="pr-12"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowSignUpPassword((visible) => !visible)}
+                    className="absolute inset-y-0 right-0 flex items-center px-3 text-medical-blue hover:text-medical-orange"
+                    aria-label={showSignUpPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showSignUpPassword}
+                  >
+                    {showSignUpPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
+                  </button>
                 </div>
-                <div>
+                <div className="relative">
                   <Input
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     placeholder="Confirm password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                     minLength={6}
                     autoComplete="new-password"
+                    className="pr-12"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((visible) => !visible)}
+                    className="absolute inset-y-0 right-0 flex items-center px-3 text-medical-blue hover:text-medical-orange"
+                    aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showConfirmPassword}
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
+                  </button>
                 </div>
                 <Button 
                   type="submit" 
