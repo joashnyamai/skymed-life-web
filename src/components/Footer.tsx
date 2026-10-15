@@ -1,5 +1,7 @@
 ﻿import { Phone, Mail, MapPin, Clock, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
+import logoAsset from "@/assets/skylife-logo.png.asset.json";
+
 
 const Footer = () => {
   const year = new Date().getFullYear();
