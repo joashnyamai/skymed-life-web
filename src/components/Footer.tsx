@@ -1,77 +1,104 @@
-
-import { Heart, Phone, Mail, MapPin, Clock } from "lucide-react";
+﻿import { Phone, Mail, MapPin, Clock, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Logo and Description */}
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-medical-blue rounded-full p-2">
-                <Heart className="h-6 w-6 text-white" />
+    <footer className="bg-medical-navy text-white" role="contentinfo">
+      {/* Location notice */}
+      <div className="bg-amber-500/20 border-b border-amber-400/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-start gap-2">
+          <AlertTriangle className="h-4 w-4 text-amber-300 mt-0.5 flex-shrink-0" aria-hidden="true"/>
+          <p className="text-xs text-amber-200 leading-snug">
+            <strong className="font-semibold">Location notice:</strong> The clinic serves Kisumu County. Postal address displayed is pending verification — please call{" "}
+            <a href="tel:+254101517171" className="underline hover:text-white font-semibold">+254 101 517 171</a>{" "}
+            to confirm your visit location before travelling.
+          </p>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+          {/* Brand */}
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-2.5 mb-5">
+              <div className="w-9 h-9 rounded-xl bg-medical-blue flex items-center justify-center flex-shrink-0">
+                <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-white" aria-hidden="true">
+                  <rect x="9" y="3" width="2" height="7" rx="1" fill="currentColor"/>
+                  <rect x="6" y="6" width="8" height="2" rx="1" fill="currentColor"/>
+                </svg>
               </div>
               <div>
-                <div className="font-bold text-xl">SkyLife Medical Clinic</div>
-                <div className="text-sm text-gray-400">Empowering Health, Enriching Lives</div>
+                <div className="font-bold text-lg text-white leading-tight">SkyLife Medical Clinic</div>
+                <div className="text-xs text-white/55 italic mt-0.5">Empowering Health, Enriching Lives</div>
               </div>
             </div>
-            <p className="text-gray-300 text-sm leading-relaxed max-w-md">
-              Providing comprehensive healthcare services to the Kisumu community with 
+            <p className="text-sm text-white/60 leading-relaxed max-w-sm">
+              Providing comprehensive healthcare services to the Kisumu County community with
               professional care, modern facilities, and a commitment to your wellbeing.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
-            <div className="space-y-2">
-              <Link to="/" className="block text-gray-300 hover:text-white transition-colors text-sm">
-                Home
-              </Link>
-              <Link to="/services" className="block text-gray-300 hover:text-white transition-colors text-sm">
-                Our Services
-              </Link>
-              <Link to="/blog" className="block text-gray-300 hover:text-white transition-colors text-sm">
-                Health Blog
-              </Link>
-              <Link to="/contact" className="block text-gray-300 hover:text-white transition-colors text-sm">
-                Contact Us
-              </Link>
-            </div>
+            <h3 className="font-semibold text-xs uppercase tracking-widest text-white/50 mb-4">Quick Links</h3>
+            <ul className="space-y-2.5" role="list">
+              {[
+                { label: "Home",        href: "/" },
+                { label: "Our Services",href: "/services" },
+                { label: "Health Blog", href: "/blog" },
+                { label: "Contact Us",  href: "/contact" },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link
+                    to={l.href}
+                    className="text-sm text-white/60 hover:text-white transition-colors duration-150 flex items-center gap-2 group"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-medical-orange/60 group-hover:bg-medical-orange transition-colors" aria-hidden="true"/>
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Contact Info */}
+          {/* Contact */}
           <div>
-            <h3 className="font-semibold text-lg mb-4">Contact Info</h3>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-sm">
-                <Phone className="h-4 w-4 text-medical-orange" />
-                <span className="text-gray-300">+254 101 517 171</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <Mail className="h-4 w-4 text-medical-orange" />
-                <span className="text-gray-300">info@skylifemedicalclinic.com</span>
-              </div>
-              <div className="flex items-start space-x-2 text-sm">
-                <MapPin className="h-4 w-4 text-medical-orange mt-0.5" />
-                <span className="text-gray-300">P.O. Box 61413-00200<br />Kisumu, Kenya</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm">
-                <Clock className="h-4 w-4 text-medical-orange" />
-                <span className="text-gray-300">Mon-Sun: 8:00 AM - 9:00 PM</span>
-              </div>
-            </div>
+            <h3 className="font-semibold text-xs uppercase tracking-widest text-white/50 mb-4">Contact</h3>
+            <ul className="space-y-3" role="list">
+              <li>
+                <a href="tel:+254101517171" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors group" aria-label="Call +254 101 517 171">
+                  <Phone className="h-4 w-4 text-medical-orange/70 group-hover:text-medical-orange flex-shrink-0" aria-hidden="true"/>
+                  +254 101 517 171
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@skylifemedicalclinic.com" className="flex items-center gap-2.5 text-sm text-white/60 hover:text-white transition-colors group break-all" aria-label="Email clinic">
+                  <Mail className="h-4 w-4 text-medical-orange/70 group-hover:text-medical-orange flex-shrink-0" aria-hidden="true"/>
+                  info@skylifemedicalclinic.com
+                </a>
+              </li>
+              <li>
+                <div className="flex items-start gap-2.5 text-sm text-white/60">
+                  <MapPin className="h-4 w-4 text-medical-orange/70 flex-shrink-0 mt-0.5" aria-hidden="true"/>
+                  <span>P.O. Box 61413-00200<br/>Kisumu County, Kenya</span>
+                </div>
+              </li>
+              <li>
+                <div className="flex items-center gap-2.5 text-sm text-white/60">
+                  <Clock className="h-4 w-4 text-medical-orange/70 flex-shrink-0" aria-hidden="true"/>
+                  Mon – Sun: 8:00 AM – 9:00 PM
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-gray-400 text-sm">
-            © 2024 SkyLife Medical Clinic. All rights reserved. | 
-            <span className="ml-1">Licensed Healthcare Provider</span>
-          </p>
+        <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-white/40">© {year} SkyLife Medical Clinic. All rights reserved.</p>
+          <p className="text-xs text-white/40">Kisumu County, Kenya</p>
         </div>
       </div>
     </footer>
