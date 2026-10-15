@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
+import logoAsset from "@/assets/skylife-logo.png.asset.json";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,17 +44,11 @@ const Header = () => {
             className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue rounded-lg p-1"
             aria-label="SkyLife Medical Clinic — Home"
           >
-            <div className="w-9 h-9 rounded-xl bg-medical-blue flex items-center justify-center shadow-sm group-hover:bg-medical-blue/90 transition-colors">
-              <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-white" aria-hidden="true">
-                <rect x="9" y="3" width="2" height="7" rx="1" fill="currentColor"/>
-                <rect x="6" y="6" width="8" height="2" rx="1" fill="currentColor"/>
-                <path d="M3 11c0-.6.4-1 1-1h12c.6 0 1 .4 1 1v6H3v-6z" fill="currentColor" opacity="0.2"/>
-              </svg>
-            </div>
-            <div className="leading-none">
-              <div className="font-bold text-[17px] text-medical-blue tracking-tight">SkyLife</div>
-              <div className="text-[10px] font-medium text-medical-gray tracking-widest uppercase -mt-0.5">Medical Clinic</div>
-            </div>
+            <img
+              src={logoAsset.url}
+              alt="SkyLife Medical Clinic — Empowering Health, Enriching Lives"
+              className="h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Nav */}
