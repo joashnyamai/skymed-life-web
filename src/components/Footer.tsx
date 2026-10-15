@@ -1,5 +1,7 @@
 ﻿import { Phone, Mail, MapPin, Clock, AlertTriangle } from "lucide-react";
 import { Link } from "react-router-dom";
+import logoAsset from "@/assets/skylife-logo.png.asset.json";
+
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -24,16 +26,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 rounded-xl bg-medical-blue flex items-center justify-center flex-shrink-0">
-                <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5 text-white" aria-hidden="true">
-                  <rect x="9" y="3" width="2" height="7" rx="1" fill="currentColor"/>
-                  <rect x="6" y="6" width="8" height="2" rx="1" fill="currentColor"/>
-                </svg>
-              </div>
-              <div>
-                <div className="font-bold text-lg text-white leading-tight">SkyLife Medical Clinic</div>
-                <div className="text-xs text-white/55 italic mt-0.5">Empowering Health, Enriching Lives</div>
-              </div>
+              <img
+                src={logoAsset.url}
+                alt="SkyLife Medical Clinic — Empowering Health, Enriching Lives"
+                className="h-14 w-auto object-contain"
+              />
             </div>
             <p className="text-sm text-white/60 leading-relaxed max-w-sm">
               Providing comprehensive healthcare services to the Kisumu County community with
