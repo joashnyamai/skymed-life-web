@@ -1,9 +1,10 @@
 ﻿import {
   Stethoscope, Users, Heart, Baby, FlaskConical, Monitor,
-  Pill, Activity, Shield, Clock, CheckCircle, Phone, ArrowRight
+  Pill, Activity, Shield, Clock, CheckCircle, ArrowRight, MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { WHATSAPP_BOOKING_URL } from "@/lib/whatsapp";
 
 const services = [
   {
@@ -11,77 +12,77 @@ const services = [
     title: "General Consultation",
     description: "Comprehensive health assessments, routine check-ups, and medical consultations for patients of all ages.",
     features: ["Health screenings", "Routine check-ups", "Medical consultations", "Preventive care"],
-    accent: "text-blue-600 bg-blue-50 dark:bg-blue-950/30 border-blue-100 dark:border-blue-900/50",
-    iconBg: "bg-blue-50 dark:bg-blue-950/40 text-blue-600",
+    accent: "text-medical-blue bg-medical-lightBlue dark:bg-medical-blue/15 border-medical-blue/15",
+    iconBg: "bg-medical-lightBlue dark:bg-medical-blue/15 text-medical-blue",
   },
   {
     icon: Users,
     title: "Family Planning",
     description: "Professional family planning services, contraceptive counseling, and reproductive health guidance.",
     features: ["Contraceptive counseling", "Family planning education", "Reproductive health", "Pregnancy planning"],
-    accent: "text-rose-600 bg-rose-50 dark:bg-rose-950/30 border-rose-100 dark:border-rose-900/50",
-    iconBg: "bg-rose-50 dark:bg-rose-950/40 text-rose-600",
+    accent: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15 border-medical-orange/20",
+    iconBg: "bg-medical-lightOrange dark:bg-medical-orange/15 text-medical-orange",
   },
   {
     icon: Heart,
     title: "Diabetes Clinic",
     description: "Specialized diabetes management, monitoring services, and lifestyle counseling for diabetic patients.",
     features: ["Blood glucose monitoring", "Diabetes education", "Lifestyle counseling", "Medication management"],
-    accent: "text-amber-600 bg-amber-50 dark:bg-amber-950/30 border-amber-100 dark:border-amber-900/50",
-    iconBg: "bg-amber-50 dark:bg-amber-950/40 text-amber-600",
+    accent: "text-medical-blue bg-medical-lightBlue dark:bg-medical-blue/15 border-medical-blue/15",
+    iconBg: "bg-medical-lightBlue dark:bg-medical-blue/15 text-medical-blue",
   },
   {
     icon: Baby,
     title: "Pediatrics",
     description: "Comprehensive child health services from infancy through adolescence with specialized pediatric care.",
     features: ["Child immunizations", "Growth monitoring", "Developmental assessments", "Pediatric consultations"],
-    accent: "text-purple-600 bg-purple-50 dark:bg-purple-950/30 border-purple-100 dark:border-purple-900/50",
-    iconBg: "bg-purple-50 dark:bg-purple-950/40 text-purple-600",
+    accent: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15 border-medical-orange/20",
+    iconBg: "bg-medical-lightOrange dark:bg-medical-orange/15 text-medical-orange",
   },
   {
     icon: FlaskConical,
     title: "Laboratory Services",
     description: "Complete diagnostic testing and laboratory analysis with accurate and timely results.",
     features: ["Blood tests", "Urine analysis", "Diagnostic testing", "Health screenings"],
-    accent: "text-teal-600 bg-teal-50 dark:bg-teal-950/30 border-teal-100 dark:border-teal-900/50",
-    iconBg: "bg-teal-50 dark:bg-teal-950/40 text-teal-600",
+    accent: "text-medical-blue bg-medical-lightBlue dark:bg-medical-blue/15 border-medical-blue/15",
+    iconBg: "bg-medical-lightBlue dark:bg-medical-blue/15 text-medical-blue",
   },
   {
     icon: Monitor,
     title: "Telemedicine",
     description: "Remote consultation services for your convenience, offering healthcare from the comfort of your home.",
     features: ["Video consultations", "Remote monitoring", "Follow-up appointments", "Prescription refills"],
-    accent: "text-indigo-600 bg-indigo-50 dark:bg-indigo-950/30 border-indigo-100 dark:border-indigo-900/50",
-    iconBg: "bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600",
+    accent: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15 border-medical-orange/20",
+    iconBg: "bg-medical-lightOrange dark:bg-medical-orange/15 text-medical-orange",
   },
   {
     icon: Pill,
     title: "Chronic Disease Management",
     description: "Ongoing care and management for chronic conditions with personalized treatment plans.",
     features: ["Hypertension management", "Chronic disease monitoring", "Medication adherence", "Lifestyle modifications"],
-    accent: "text-orange-600 bg-orange-50 dark:bg-orange-950/30 border-orange-100 dark:border-orange-900/50",
-    iconBg: "bg-orange-50 dark:bg-orange-950/40 text-orange-600",
+    accent: "text-medical-blue bg-medical-lightBlue dark:bg-medical-blue/15 border-medical-blue/15",
+    iconBg: "bg-medical-lightBlue dark:bg-medical-blue/15 text-medical-blue",
   },
   {
     icon: Activity,
     title: "Health Screenings",
     description: "Comprehensive health screenings and preventive care to detect health issues early.",
     features: ["Cancer screenings", "Cardiovascular assessments", "Wellness check-ups", "Health risk evaluations"],
-    accent: "text-emerald-600 bg-emerald-50 dark:bg-emerald-950/30 border-emerald-100 dark:border-emerald-900/50",
-    iconBg: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600",
+    accent: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15 border-medical-orange/20",
+    iconBg: "bg-medical-lightOrange dark:bg-medical-orange/15 text-medical-orange",
   },
   {
     icon: Shield,
     title: "Immunizations",
     description: "Complete vaccination services for children and adults, including travel vaccinations.",
     features: ["Childhood vaccines", "Adult immunizations", "Travel vaccines", "Flu shots"],
-    accent: "text-cyan-600 bg-cyan-50 dark:bg-cyan-950/30 border-cyan-100 dark:border-cyan-900/50",
-    iconBg: "bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600",
+    accent: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15 border-medical-orange/20",
+    iconBg: "bg-medical-lightOrange dark:bg-medical-orange/15 text-medical-orange",
   },
 ];
 
 const insuranceProviders = [
-  "NHIF (National Hospital Insurance Fund)",
+  "SHA (Social Health Authority)",
   "Jubilee Insurance",
   "APA Insurance",
   "Britam Health",
@@ -95,7 +96,7 @@ const Services = () => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="gradient-hero dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-950 py-16 md:py-20 border-b border-border" aria-labelledby="services-h1">
+      <section className="gradient-hero dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-950 py-12 md:py-16 border-b border-border" aria-labelledby="services-h1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block px-4 py-1.5 rounded-full bg-medical-tealLight dark:bg-medical-teal/15 text-medical-teal text-sm font-semibold mb-5">
             Comprehensive Care
@@ -111,7 +112,7 @@ const Services = () => {
       </section>
 
       {/* Services Grid */}
-      <section className="py-16 md:py-20 bg-muted/20" aria-label="Available services">
+      <section className="py-12 md:py-16 bg-muted/20" aria-label="Available services">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map((service, i) => (
@@ -161,11 +162,11 @@ const Services = () => {
                 </p>
                 <Button
                   asChild
-                  className="w-full mt-3 bg-medical-teal hover:bg-medical-tealDark text-white rounded-xl"
+                  className="w-full mt-3 bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue rounded-xl"
                 >
-                  <a href="tel:+254101517171" className="flex items-center justify-center gap-2" aria-label="Call clinic: +254 101 517 171">
-                    <Phone className="h-4 w-4" aria-hidden="true" />
-                    Call: +254 101 517 171
+                  <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2" aria-label="Book an appointment on WhatsApp">
+                    <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                    Book on WhatsApp
                   </a>
                 </Button>
               </div>
@@ -174,8 +175,8 @@ const Services = () => {
             {/* Insurance */}
             <div className="rounded-2xl border border-border bg-white dark:bg-card p-6 md:p-8">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-5 w-5 text-blue-600" aria-hidden="true" />
+                <div className="w-10 h-10 rounded-xl bg-medical-lightBlue dark:bg-medical-blue/15 flex items-center justify-center flex-shrink-0">
+                  <Shield className="h-5 w-5 text-medical-blue" aria-hidden="true" />
                 </div>
                 <h2 className="text-lg font-bold text-foreground">Accepted Insurance</h2>
               </div>
@@ -196,31 +197,31 @@ const Services = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 gradient-teal relative overflow-hidden" aria-labelledby="services-cta">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.08),transparent_60%)]" aria-hidden="true" />
+      <section className="py-14 md:py-16 bg-medical-lightBlue relative overflow-hidden" aria-labelledby="services-cta">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.35),transparent_60%)]" aria-hidden="true" />
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 id="services-cta" className="text-3xl md:text-4xl font-bold text-white mb-5">
+          <h2 id="services-cta" className="text-3xl md:text-4xl font-bold text-foreground mb-5">
             Book Your Appointment Today
           </h2>
-          <p className="text-lg text-white/80 mb-8 max-w-xl mx-auto">
+          <p className="text-lg text-medical-gray mb-8 max-w-xl mx-auto">
             Experience quality healthcare with our professional team. We are here to take care of your health needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               asChild
               size="lg"
-              className="bg-white hover:bg-white/90 text-medical-teal font-bold px-8 py-6 text-base rounded-xl shadow-lg"
+              className="bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange font-bold px-8 py-6 text-base rounded-xl shadow-lg"
             >
-              <a href="tel:+254101517171" className="flex items-center justify-center gap-2" aria-label="Call clinic: +254 101 517 171">
-                <Phone className="h-5 w-5" aria-hidden="true" />
-                Call: +254 101 517 171
+              <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2" aria-label="Book an appointment on WhatsApp">
+                <MessageCircle className="h-5 w-5" aria-hidden="true" />
+                Book on WhatsApp
               </a>
             </Button>
             <Button
               asChild
               variant="outline"
               size="lg"
-              className="border-2 border-white/60 text-white hover:bg-white/10 font-semibold px-8 py-6 text-base rounded-xl"
+              className="border-2 border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue font-semibold px-8 py-6 text-base rounded-xl"
             >
               <Link to="/contact" className="flex items-center justify-center gap-2">
                 Contact Us

@@ -7,9 +7,9 @@
 
 @layer base {
   :root {
-    --brand-blue: 202 100% 36%;
+    --brand-blue: 202 96% 40%;
     --brand-blue-soft: 202 100% 95%;
-    --brand-blue-deep: 205 100% 28%;
+    --brand-blue-deep: 202 96% 36%;
     --brand-orange: 28 92% 40%;
     --brand-orange-soft: 31 100% 94%;
     --brand-gray: 210 12% 38%;
@@ -24,7 +24,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 202 100% 36%;
+    --primary: var(--brand-blue);
     --primary-foreground: 0 0% 100%;
 
     --secondary: 210 40% 96.1%;
@@ -33,7 +33,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 31 100% 94%;
+    --accent: var(--brand-orange-soft);
     --accent-foreground: 26 90% 30%;
 
     --destructive: 0 84.2% 60.2%;
@@ -41,7 +41,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 202 100% 36%;
+    --ring: var(--brand-blue);
 
     --radius: 1rem;
 
@@ -73,7 +73,7 @@
     --popover: 212 32% 10%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 202 100% 62%;
+    --primary: var(--brand-blue);
     --primary-foreground: 210 55% 8%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -82,7 +82,7 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 28 60% 14%;
+    --accent: var(--brand-orange-soft);
     --accent-foreground: 31 95% 65%;
 
     --destructive: 0 62.8% 30.6%;
@@ -90,7 +90,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 202 100% 62%;
+    --ring: var(--brand-blue);
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -110,7 +110,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Manrope", system-ui, sans-serif;
+    font-family: "Outfit", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     line-height: 1.65;
   }

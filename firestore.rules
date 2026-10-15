@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.uid == '7ExT7Lb3ykfaWOYudiXp15Ao5Xk2';
+    }
+
+    function hasValidPostFields() {
+      return request.resource.data.keys().hasAll([
+        'title', 'content', 'excerpt', 'category', 'read_time',
+        'published', 'author_id', 'created_at'
+      ])
+      && request.resource.data.title is string
+      && request.resource.data.content is string
+      && request.resource.data.excerpt is string
+      && request.resource.data.category is string
+      && request.resource.data.read_time is string
+      && request.resource.data.published is bool;
+    }
+
+    match /blog_posts/{postId} {
+      allow get, list: if isAdmin() || resource.data.published == true;
+      allow create: if isAdmin()
+        && hasValidPostFields()
+        && request.resource.data.author_id == request.auth.uid;
+      allow update: if isAdmin() && hasValidPostFields();
+      allow delete: if isAdmin();
+    }
+
+    // Allow admin users to seed and manage other collections without exposing them publicly.
+    match /{collection}/{document=**} {
+      allow read, write: if collection != 'blog_posts' && isAdmin();
+    }
+  }
+}

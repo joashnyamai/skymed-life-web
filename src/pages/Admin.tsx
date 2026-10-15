@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,26 +7,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import { Plus, Edit, Trash2, Eye, LogOut } from 'lucide-react';
+import { Plus, Edit, Trash2, LogOut } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  category: string;
-  read_time: string;
-  published: boolean;
-  created_at: string;
-  image_url?: string;
-}
+import { createBlogPost, deleteBlogPost, listAllBlogPosts, updateBlogPost, type BlogPost } from '@/lib/blogPosts';
 
 const Admin = () => {
-  const { user, signOut, loading } = useAuth();
+  const { user, isAdmin, signOut, loading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -44,57 +32,52 @@ const Admin = () => {
     image_url: ''
   });
 
+  const fetchPosts = useCallback(async () => {
+    try {
+      setPosts(await listAllBlogPosts());
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to fetch posts",
+        variant: "destructive"
+      });
+    }
+  }, [toast]);
+
   useEffect(() => {
     if (loading) return;
-    
-    if (!user) {
+
+    if (!user || !isAdmin) {
+      if (user && !isAdmin) {
+        toast({
+          title: "Admin access required",
+          description: "This account has not been granted blog administration access.",
+          variant: "destructive"
+        });
+      }
       navigate('/auth');
       return;
     }
-    
-    fetchPosts();
-  }, [user, loading, navigate]);
 
-  const fetchPosts = async () => {
-    const { data, error } = await supabase
-      .from('blog_posts')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch posts",
-        variant: "destructive"
-      });
-    } else {
-      setPosts(data || []);
-    }
-  };
+    void fetchPosts();
+  }, [user, isAdmin, loading, navigate, fetchPosts, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploading(true);
 
     try {
-      if (editingPost) {
-        const { error } = await supabase
-          .from('blog_posts')
-          .update(formData)
-          .eq('id', editingPost.id);
+      if (!user) throw new Error('You must be signed in to manage posts.');
 
-        if (error) throw error;
+      if (editingPost) {
+        await updateBlogPost(editingPost.id, formData);
         
         toast({
           title: "Success",
           description: "Post updated successfully"
         });
       } else {
-        const { error } = await supabase
-          .from('blog_posts')
-          .insert([formData]);
-
-        if (error) throw error;
+        await createBlogPost(formData, user.uid);
         
         toast({
           title: "Success",
@@ -103,11 +86,11 @@ const Admin = () => {
       }
 
       resetForm();
-      fetchPosts();
-    } catch (error: any) {
+      await fetchPosts();
+    } catch (error) {
       toast({
         title: "Error",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Failed to save post',
         variant: "destructive"
       });
     } finally {
@@ -118,23 +101,19 @@ const Admin = () => {
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
 
-    const { error } = await supabase
-      .from('blog_posts')
-      .delete()
-      .eq('id', id);
-
-    if (error) {
+    try {
+      await deleteBlogPost(id);
+      toast({
+        title: "Success",
+        description: "Post deleted successfully"
+      });
+      await fetchPosts();
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete post",
         variant: "destructive"
       });
-    } else {
-      toast({
-        title: "Success",
-        description: "Post deleted successfully"
-      });
-      fetchPosts();
     }
   };
 
@@ -185,14 +164,14 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-muted/30 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Blog Admin</h1>
+          <h1 className="text-3xl font-bold text-foreground">Blog Admin</h1>
           <div className="flex space-x-4">
             <Button
               onClick={() => setShowForm(true)}
-              className="bg-medical-blue hover:bg-medical-blue/90"
+              className="bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue"
             >
               <Plus className="h-4 w-4 mr-2" />
               New Post
@@ -305,7 +284,7 @@ const Admin = () => {
                 <div className="flex space-x-4">
                   <Button
                     type="submit"
-                    className="bg-medical-blue hover:bg-medical-blue/90"
+                    className="bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue"
                     disabled={uploading}
                   >
                     {uploading ? 'Saving...' : (editingPost ? 'Update Post' : 'Create Post')}
@@ -353,8 +332,8 @@ const Admin = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                <div className="text-sm text-gray-500">
+                <p className="text-muted-foreground mb-4">{post.excerpt}</p>
+                <div className="text-sm text-muted-foreground">
                   Created: {new Date(post.created_at).toLocaleDateString()}
                 </div>
               </CardContent>

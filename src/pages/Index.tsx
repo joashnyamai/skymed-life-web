@@ -1,47 +1,48 @@
 ﻿import {
   ArrowRight, Phone, Users, Award, Clock, CheckCircle,
-  Heart, Stethoscope, Baby, FlaskConical, Monitor, CalendarCheck,
-  Shield, Star
+  Heart, Stethoscope, Baby, FlaskConical, Monitor,
+  Shield, Star, MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { WHATSAPP_BOOKING_URL } from "@/lib/whatsapp";
 
 const services = [
   {
     icon: Stethoscope,
     title: "General Consultation",
     description: "Comprehensive health assessments and medical consultations for all ages.",
-    color: "text-blue-600 bg-blue-50 dark:bg-blue-950/40",
+    color: "text-medical-blue bg-medical-lightBlue dark:bg-medical-blue/15",
   },
   {
     icon: Users,
     title: "Family Planning",
     description: "Professional family planning services and reproductive health guidance.",
-    color: "text-rose-600 bg-rose-50 dark:bg-rose-950/40",
+    color: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15",
   },
   {
     icon: Heart,
     title: "Diabetes Clinic",
     description: "Specialized diabetes management and monitoring services.",
-    color: "text-amber-600 bg-amber-50 dark:bg-amber-950/40",
+    color: "text-medical-blue bg-medical-lightBlue dark:bg-medical-blue/15",
   },
   {
     icon: Baby,
     title: "Pediatrics",
     description: "Child health services from infancy through adolescence.",
-    color: "text-purple-600 bg-purple-50 dark:bg-purple-950/40",
+    color: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15",
   },
   {
     icon: FlaskConical,
     title: "Laboratory Services",
     description: "Complete diagnostic testing and laboratory analysis.",
-    color: "text-teal-600 bg-teal-50 dark:bg-teal-950/40",
+    color: "text-medical-blue bg-medical-lightBlue dark:bg-medical-blue/15",
   },
   {
     icon: Monitor,
     title: "Telemedicine",
     description: "Remote consultation services for your convenience.",
-    color: "text-indigo-600 bg-indigo-50 dark:bg-indigo-950/40",
+    color: "text-medical-orange bg-medical-lightOrange dark:bg-medical-orange/15",
   },
 ];
 
@@ -57,15 +58,15 @@ const Index = () => {
     <div className="min-h-screen">
       {/* ====================== HERO ====================== */}
       <section
-        className="relative overflow-hidden gradient-hero dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-950 py-16 md:py-24 lg:py-28"
+        className="relative overflow-hidden gradient-hero dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-950 py-10 md:py-16 lg:py-20"
         aria-labelledby="hero-heading"
       >
         {/* Decorative circles */}
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-medical-teal/5 pointer-events-none" aria-hidden="true" />
-        <div className="absolute bottom-0 -left-20 w-72 h-72 rounded-full bg-blue-400/5 pointer-events-none" aria-hidden="true" />
+        <div className="absolute bottom-0 -left-20 w-72 h-72 rounded-full bg-medical-blue/5 pointer-events-none" aria-hidden="true" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left: Content */}
             <div className="animate-fade-in">
               {/* Badge */}
@@ -94,15 +95,17 @@ const Index = () => {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-medical-teal hover:bg-medical-tealDark text-white font-semibold px-7 py-6 text-base shadow-md hover:shadow-lg transition-all duration-200 rounded-xl"
+                  className="bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue font-semibold px-7 py-6 text-base shadow-md hover:shadow-lg transition-all duration-200 rounded-xl"
                 >
                   <a
-                    href="tel:+254101517171"
+                    href={WHATSAPP_BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2"
-                    aria-label="Book appointment by calling +254 101 517 171"
+                    aria-label="Book an appointment on WhatsApp"
                   >
-                    <CalendarCheck className="h-5 w-5" aria-hidden="true" />
-                    <span>Book Appointment</span>
+                    <MessageCircle className="h-5 w-5" aria-hidden="true" />
+                    <span>Book on WhatsApp</span>
                   </a>
                 </Button>
                 <Button
@@ -120,7 +123,7 @@ const Index = () => {
 
               {/* Trust signals */}
               <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
-                {["Licensed Healthcare Provider", "NHIF Accepted", "Open 7 Days"].map((t) => (
+                {["Licensed Healthcare Provider", "SHA Accepted", "Open 7 Days"].map((t) => (
                   <div key={t} className="flex items-center gap-1.5 text-sm text-muted-foreground">
                     <CheckCircle className="h-4 w-4 text-medical-teal flex-shrink-0" aria-hidden="true" />
                     <span>{t}</span>
@@ -136,8 +139,8 @@ const Index = () => {
                 <div className="bg-white dark:bg-card rounded-3xl shadow-card-hover p-6 border border-border">
                   <div className="flex items-center justify-between mb-5">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-medical-teal flex items-center justify-center flex-shrink-0">
-                        <Heart className="h-5 w-5 text-white" aria-hidden="true" />
+                      <div className="w-10 h-10 rounded-xl bg-medical-lightBlue flex items-center justify-center flex-shrink-0">
+                        <Heart className="h-5 w-5 text-medical-blue" aria-hidden="true" />
                       </div>
                       <div>
                         <div className="font-bold text-sm text-foreground">SkyLife Medical</div>
@@ -176,20 +179,16 @@ const Index = () => {
 
                     <Button
                       asChild
-                      className="w-full bg-medical-teal hover:bg-medical-tealDark text-white rounded-xl mt-1 font-medium"
+                      className="w-full bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue rounded-xl mt-1 font-medium"
                     >
-                      <a href="tel:+254101517171" aria-label="Call to book appointment">
-                        <Phone className="h-4 w-4 mr-2" aria-hidden="true" />
-                        Call to Book
+                      <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on WhatsApp">
+                        <MessageCircle className="h-4 w-4 mr-2" aria-hidden="true" />
+                        Book on WhatsApp
                       </a>
                     </Button>
                   </div>
                 </div>
 
-                {/* Floating badge */}
-                <div className="absolute -top-3 -right-3 bg-medical-teal text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg" aria-hidden="true">
-                  Kisumu County
-                </div>
               </div>
             </div>
           </div>
@@ -221,7 +220,7 @@ const Index = () => {
 
       {/* ====================== SERVICES ====================== */}
       <section
-        className="py-20 bg-muted/30 dark:bg-background/50"
+        className="py-14 md:py-16 bg-muted/30 dark:bg-background/50"
         aria-labelledby="services-heading"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -283,7 +282,7 @@ const Index = () => {
 
       {/* ====================== CTA ====================== */}
       <section
-        className="relative overflow-hidden py-20 gradient-teal"
+        className="relative overflow-hidden py-14 md:py-16 bg-medical-lightBlue"
         aria-labelledby="cta-heading"
       >
         {/* Decorative */}
@@ -292,11 +291,11 @@ const Index = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2
             id="cta-heading"
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-5"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-5"
           >
             Ready to Take Care of Your Health?
           </h2>
-          <p className="text-lg text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-medical-gray mb-8 max-w-2xl mx-auto leading-relaxed">
             Schedule your appointment today and experience quality healthcare that puts your
             wellbeing first.
           </p>
@@ -305,22 +304,24 @@ const Index = () => {
             <Button
               asChild
               size="lg"
-              className="bg-white hover:bg-white/90 text-medical-teal font-bold px-8 py-6 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+              className="bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange font-bold px-8 py-6 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <a
-                href="tel:+254101517171"
+                href={WHATSAPP_BOOKING_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2"
-                aria-label="Call now: +254 101 517 171"
+                aria-label="Book an appointment on WhatsApp"
               >
-                <Phone className="h-5 w-5" aria-hidden="true" />
-                <span>Call Now: +254 101 517 171</span>
+                <MessageCircle className="h-5 w-5" aria-hidden="true" />
+                <span>Book on WhatsApp</span>
               </a>
             </Button>
             <Button
               asChild
               variant="outline"
               size="lg"
-              className="border-2 border-white/60 text-white hover:bg-white/10 font-semibold px-8 py-6 text-base rounded-xl transition-all duration-200"
+              className="border-2 border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue font-semibold px-8 py-6 text-base rounded-xl transition-all duration-200"
             >
               <Link to="/contact" className="flex items-center justify-center gap-2">
                 <span>Contact Us</span>
@@ -330,11 +331,11 @@ const Index = () => {
           </div>
 
           {/* Quick info pills */}
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            {["Open 7 days a week", "Mon–Sun 8AM–9PM", "NHIF Accepted"].map((info) => (
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {["Open 7 days a week", "Mon–Sun 8AM–9PM", "SHA Accepted"].map((info) => (
               <div
                 key={info}
-                className="px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm text-white/90 font-medium"
+                className="px-4 py-2 rounded-full bg-white/80 border border-medical-blue/15 text-sm text-medical-blue font-medium"
               >
                 {info}
               </div>

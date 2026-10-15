@@ -1,9 +1,10 @@
 ﻿import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
 import logoAsset from "@/assets/skylife-logo.png.asset.json";
+import { WHATSAPP_BOOKING_URL } from "@/lib/whatsapp";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,7 +61,7 @@ const Header = () => {
                 className={`relative px-3.5 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                   isActive(item.href)
                     ? "text-medical-blue bg-medical-lightBlue"
-                    : "text-medical-gray hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-white/5"
+                    : "text-medical-gray hover:text-medical-blue hover:bg-medical-lightBlue dark:hover:bg-medical-blue/10"
                 }`}
                 aria-current={isActive(item.href) ? "page" : undefined}
               >
@@ -75,17 +76,17 @@ const Header = () => {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-2">
             <ThemeToggle />
-            <Button asChild variant="ghost" size="sm" className="text-medical-gray hover:text-gray-900 text-sm font-medium">
+            <Button asChild variant="ghost" size="sm" className="text-medical-gray hover:text-medical-blue text-sm font-medium">
               <Link to="/auth">Admin</Link>
             </Button>
             <Button
               asChild
               size="sm"
-              className="bg-medical-orange hover:bg-medical-orange/90 text-white font-semibold px-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
+              className="bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange font-semibold px-4 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
             >
-              <a href="tel:+254101517171" className="flex items-center gap-2" aria-label="Call to book: +254 101 517 171">
-                <Phone className="h-4 w-4" aria-hidden="true" />
-                Book Now
+              <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2" aria-label="Book an appointment on WhatsApp">
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                WhatsApp Booking
               </a>
             </Button>
           </div>
@@ -93,9 +94,9 @@ const Header = () => {
           {/* Mobile Actions */}
           <div className="md:hidden flex items-center gap-1.5">
             <ThemeToggle />
-            <Button asChild size="sm" className="bg-medical-orange hover:bg-medical-orange/90 text-white h-8 w-8 p-0 rounded-lg">
-              <a href="tel:+254101517171" aria-label="Call clinic">
-                <Phone className="h-4 w-4" aria-hidden="true" />
+            <Button asChild size="sm" className="bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange h-8 w-8 p-0 rounded-lg">
+              <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp">
+                <MessageCircle className="h-4 w-4" aria-hidden="true" />
               </a>
             </Button>
             <Button
@@ -127,7 +128,7 @@ const Header = () => {
                 className={`flex items-center px-3 py-2.5 text-[15px] font-medium rounded-xl transition-colors ${
                   isActive(item.href)
                     ? "text-medical-blue bg-medical-lightBlue"
-                    : "text-medical-gray hover:text-gray-900 hover:bg-gray-50 dark:hover:bg-white/5"
+                    : "text-medical-gray hover:text-medical-blue hover:bg-medical-lightBlue dark:hover:bg-medical-blue/10"
                 }`}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 onClick={() => setIsMenuOpen(false)}
@@ -139,9 +140,9 @@ const Header = () => {
               <Button asChild variant="outline" className="w-full rounded-xl text-sm">
                 <Link to="/auth" onClick={() => setIsMenuOpen(false)}>Admin</Link>
               </Button>
-              <Button asChild className="w-full bg-medical-orange hover:bg-medical-orange/90 text-white rounded-xl text-sm">
-                <a href="tel:+254101517171" className="flex items-center justify-center gap-2">
-                  <Phone className="h-4 w-4" aria-hidden="true" />
+              <Button asChild className="w-full bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange rounded-xl text-sm">
+                <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" />
                   Book Now
                 </a>
               </Button>

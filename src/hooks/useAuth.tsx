@@ -1,65 +1,77 @@
-
-import { useState, useEffect } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+import { useEffect, useState } from 'react';
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut as firebaseSignOut,
+  type User,
+} from 'firebase/auth';
+import { auth, configuredAdminUid, getFirebaseAuth } from '@/integrations/firebase/client';
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
-      }
-    );
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
 
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
+    let isActive = true;
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (!isActive) return;
+      setUser(currentUser);
+
+      if (!currentUser) {
+        setIsAdmin(false);
+        setLoading(false);
+        return;
+      }
+
+      setIsAdmin(Boolean(configuredAdminUid) && currentUser.uid === configuredAdminUid);
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isActive = false;
+      unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    try {
+      const credential = await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
+      if (!configuredAdminUid || credential.user.uid !== configuredAdminUid) {
+        await firebaseSignOut(getFirebaseAuth());
+        throw new Error('This account is not configured as the site admin. Set its Firebase user UID in VITE_FIREBASE_ADMIN_UID and firestore.rules.');
+      }
+      return { error: null };
+    } catch (error) {
+      return { error: error as Error };
+    }
   };
 
   const signUp = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl
-      }
-    });
-    return { error };
+    try {
+      const credential = await createUserWithEmailAndPassword(getFirebaseAuth(), email, password);
+      await firebaseSignOut(getFirebaseAuth());
+
+      return { error: null };
+    } catch (error) {
+      return { error: error as Error };
+    }
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    return { error };
+    try {
+      await firebaseSignOut(getFirebaseAuth());
+      return { error: null };
+    } catch (error) {
+      return { error: error as Error };
+    }
   };
 
-  return {
-    user,
-    session,
-    loading,
-    signIn,
-    signUp,
-    signOut
-  };
+  return { user, isAdmin, loading, signIn, signUp, signOut };
 };
