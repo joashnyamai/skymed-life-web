@@ -17,7 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Manrope", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -26,12 +26,12 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(210, 100%, 45%)",
-          foreground: "hsl(0, 0%, 98%)",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "hsl(210, 40%, 96.1%)",
-          foreground: "hsl(222.2, 47.4%, 11.2%)",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -64,13 +64,16 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         medical: {
-          blue:        "hsl(210, 100%, 45%)",
-          lightBlue:   "hsl(210, 100%, 95%)",
-          orange:      "hsl(25, 95%, 53%)",
-          lightOrange: "hsl(25, 95%, 95%)",
-          gray:        "hsl(210, 10%, 40%)",
-          lightGray:   "hsl(210, 20%, 98%)",
-          navy:        "hsl(215, 60%, 14%)",
+          blue: "hsl(var(--brand-blue) / <alpha-value>)",
+          lightBlue: "hsl(var(--brand-blue-soft) / <alpha-value>)",
+          teal: "hsl(var(--brand-blue) / <alpha-value>)",
+          tealLight: "hsl(var(--brand-blue-soft) / <alpha-value>)",
+          tealDark: "hsl(var(--brand-blue-deep) / <alpha-value>)",
+          orange: "hsl(var(--brand-orange) / <alpha-value>)",
+          lightOrange: "hsl(var(--brand-orange-soft) / <alpha-value>)",
+          gray: "hsl(var(--brand-gray) / <alpha-value>)",
+          lightGray: "hsl(var(--brand-light-gray) / <alpha-value>)",
+          navy: "hsl(var(--brand-navy) / <alpha-value>)",
         },
       },
       borderRadius: {
