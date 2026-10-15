@@ -47,7 +47,7 @@ const Header = () => {
             <img
               src={logoAsset.url}
               alt="SkyLife Medical Clinic — Empowering Health, Enriching Lives"
-              className="h-12 w-auto object-contain"
+              className="h-11 w-auto object-contain md:h-14"
             />
           </Link>
 
