@@ -6,12 +6,16 @@ import {
   signOut as firebaseSignOut,
   type User,
 } from 'firebase/auth';
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { auth, getFirebaseAuth, getFirebaseDb } from '@/integrations/firebase/client';
 
-const userHasAdminRole = async (user: User) => {
-  const userSnapshot = await getDoc(doc(getFirebaseDb(), 'users', user.uid));
-  return userSnapshot.exists() && userSnapshot.data().admin === true;
+export const userHasAdminRole = async (user: User) => {
+  try {
+    const userSnapshot = await getDoc(doc(getFirebaseDb(), 'users', user.uid));
+    return userSnapshot.exists() && userSnapshot.data().admin === true;
+  } catch {
+    return false;
+  }
 };
 
 export const useAuth = () => {
@@ -26,9 +30,16 @@ export const useAuth = () => {
     }
 
     let isActive = true;
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    let unsubscribeDoc: (() => void) | null = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
       if (!isActive) return;
       setUser(currentUser);
+
+      if (unsubscribeDoc) {
+        unsubscribeDoc();
+        unsubscribeDoc = null;
+      }
 
       if (!currentUser) {
         setIsAdmin(false);
@@ -36,60 +47,68 @@ export const useAuth = () => {
         return;
       }
 
+      // Real-time listener: detects the moment admin: true is set in Firestore
       try {
-        setIsAdmin(await userHasAdminRole(currentUser));
-      } catch {
-        setIsAdmin(false);
-      } finally {
-        setLoading(false);
+        const userDocRef = doc(getFirebaseDb(), 'users', currentUser.uid);
+        unsubscribeDoc = onSnapshot(
+          userDocRef,
+          (snapshot) => {
+            if (!isActive) return;
+            const data = snapshot.data();
+            const hasAdmin = Boolean(snapshot.exists() && data?.admin === true);
+            setIsAdmin(hasAdmin);
+            setLoading(false);
+          },
+          (error) => {
+            console.error('Error listening to user admin status:', error);
+            if (isActive) {
+              setIsAdmin(false);
+              setLoading(false);
+            }
+          }
+        );
+      } catch (err) {
+        console.error('Error attaching user document listener:', err);
+        if (isActive) {
+          setIsAdmin(false);
+          setLoading(false);
+        }
       }
     });
 
     return () => {
       isActive = false;
-      unsubscribe();
+      if (unsubscribeDoc) {
+        unsubscribeDoc();
+      }
+      unsubscribeAuth();
     };
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
       const credential = await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
-      if (!(await userHasAdminRole(credential.user))) {
-        await firebaseSignOut(getFirebaseAuth());
-        throw Object.assign(new Error('Admin role required'), { code: 'app/admin-role-required' });
-      }
-      return { error: null };
+      const isUserAdmin = await userHasAdminRole(credential.user);
+      return { user: credential.user, isAdmin: isUserAdmin, error: null };
     } catch (error) {
-      if (auth?.currentUser) {
-        await firebaseSignOut(auth).catch(() => undefined);
-      }
-      return { error: error as Error };
+      return { user: null, isAdmin: false, error: error as Error };
     }
   };
 
   const signUp = async (email: string, password: string) => {
-    let authAccountCreated = false;
-
     try {
       const credential = await createUserWithEmailAndPassword(getFirebaseAuth(), email, password);
-      authAccountCreated = true;
       await setDoc(doc(getFirebaseDb(), 'users', credential.user.uid), {
         email: credential.user.email,
         admin: false,
         createdAt: serverTimestamp(),
       });
-      await firebaseSignOut(getFirebaseAuth());
-
-      return { error: null };
+      // User stays signed in so onSnapshot can detect when admin is granted in Firestore
+      return { user: credential.user, error: null };
     } catch (error) {
-      if (authAccountCreated && auth?.currentUser) {
-        await firebaseSignOut(auth).catch(() => undefined);
-      }
-
       return {
-        error: new Error(authAccountCreated
-          ? 'Account created but profile setup failed.'
-          : 'Account registration failed.'),
+        user: null,
+        error: error instanceof Error ? error : new Error('Account registration failed.'),
       };
     }
   };

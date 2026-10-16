@@ -1,14 +1,16 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, MessageCircle } from "lucide-react";
+import { Menu, X, MessageCircle, PenSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
+import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/skylife-logo.png";
 import { WHATSAPP_BOOKING_URL } from "@/lib/whatsapp";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { isAdmin } = useAuth();
   const location = useLocation();
 
   const navigation = [
@@ -76,8 +78,26 @@ const Header = () => {
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-2">
             <ThemeToggle />
-            <Button asChild variant="ghost" size="sm" className="text-medical-gray hover:text-medical-blue text-sm font-medium">
-              <Link to="/auth">Admin</Link>
+            <Button
+              asChild
+              variant={isAdmin ? "default" : "ghost"}
+              size="sm"
+              className={
+                isAdmin
+                  ? "bg-medical-lightBlue hover:bg-medical-blue/15 text-medical-blue font-semibold rounded-xl text-sm"
+                  : "text-medical-gray hover:text-medical-blue text-sm font-medium"
+              }
+            >
+              <Link to={isAdmin ? "/admin?create=true" : "/auth"}>
+                {isAdmin ? (
+                  <span className="flex items-center gap-1.5">
+                    <PenSquare className="h-3.5 w-3.5" />
+                    Create Post
+                  </span>
+                ) : (
+                  "Admin"
+                )}
+              </Link>
             </Button>
             <Button
               asChild
@@ -138,7 +158,9 @@ const Header = () => {
             ))}
             <div className="pt-2 pb-1 grid grid-cols-2 gap-2">
               <Button asChild variant="outline" className="w-full rounded-xl text-sm">
-                <Link to="/auth" onClick={() => setIsMenuOpen(false)}>Admin</Link>
+                <Link to={isAdmin ? "/admin?create=true" : "/auth"} onClick={() => setIsMenuOpen(false)}>
+                  {isAdmin ? "Create Post" : "Admin"}
+                </Link>
               </Button>
               <Button asChild className="w-full bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange rounded-xl text-sm">
                 <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">

@@ -1,9 +1,12 @@
 
 import { useState, useEffect, useCallback, type FormEvent } from "react";
-import { Calendar, Clock, Heart, Activity, Baby, Apple, type LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Calendar, Clock, Heart, Activity, Baby, Apple, PlusCircle, Settings, type LucideIcon } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import { listPublishedBlogPosts, type BlogPost } from "@/lib/blogPosts";
 import { getFriendlyErrorMessage } from "@/lib/friendlyError";
 
@@ -12,6 +15,7 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const { toast } = useToast();
+  const { isAdmin } = useAuth();
 
   const handleNewsletterSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,6 +88,33 @@ const Blog = () => {
   return (
     <div className="min-h-screen py-8 md:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {isAdmin && (
+          <div className="mb-8 p-4 rounded-2xl bg-medical-lightBlue/60 border border-medical-blue/20 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm animate-fade-in">
+            <div className="flex items-center gap-2.5 text-medical-blue">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-medical-blue opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-medical-blue"></span>
+              </span>
+              <span className="text-sm font-semibold">Admin Mode Active</span>
+              <span className="hidden sm:inline text-xs text-muted-foreground">• You have permission to publish and manage articles</span>
+            </div>
+            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+              <Button asChild size="sm" className="bg-medical-blue hover:bg-medical-blue/90 text-white font-medium rounded-xl shadow-sm">
+                <Link to="/admin?create=true">
+                  <PlusCircle className="h-4 w-4 mr-2" />
+                  Create New Post
+                </Link>
+              </Button>
+              <Button asChild size="sm" variant="outline" className="rounded-xl">
+                <Link to="/admin">
+                  <Settings className="h-4 w-4 mr-2" />
+                  Manage Posts
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">

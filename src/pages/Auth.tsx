@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,8 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { Eye, EyeOff, Heart } from 'lucide-react';
+import { Eye, EyeOff, Heart, Clock, Copy, Check, LogOut, Sparkles } from 'lucide-react';
 import { getFriendlyErrorMessage } from '@/lib/friendlyError';
 
 const Auth = () => {
@@ -21,32 +20,44 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [signInError, setSignInError] = useState('');
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
-  const [registrationComplete, setRegistrationComplete] = useState(false);
-  const { signIn, signUp, isAdmin } = useAuth();
+  const [copiedUid, setCopiedUid] = useState(false);
+  const { user, signIn, signUp, signOut, isAdmin } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // Automatically redirect as soon as admin access is detected in Firestore
   useEffect(() => {
-    if (isAdmin && !registrationComplete) {
-      navigate('/admin');
+    if (isAdmin) {
+      toast({
+        title: "Admin Access Granted",
+        description: "Redirecting you to the Create Post page...",
+      });
+      navigate('/admin?create=true');
     }
-  }, [isAdmin, navigate, registrationComplete]);
+  }, [isAdmin, navigate, toast]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const { error } = await signIn(email, password);
-      if (error) {
-        const message = getFriendlyErrorMessage(error, 'Please check your email and password, then try again.');
+      const result = await signIn(email, password);
+      if (result.error) {
+        const message = getFriendlyErrorMessage(result.error, 'Please check your email and password, then try again.');
         setSignInError(message);
         toast({ title: "Sign in failed", description: message, variant: "destructive" });
+      } else if (result.isAdmin) {
+        setSignInError('');
+        toast({
+          title: "Welcome Admin!",
+          description: "Taking you to create a blog post...",
+        });
+        navigate('/admin?create=true');
       } else {
         setSignInError('');
         toast({
-          title: "Welcome back!",
-          description: "Signed in successfully."
+          title: "Signed In",
+          description: "Your account is active. Waiting for admin permissions in Firestore.",
         });
       }
     } catch {
@@ -81,17 +92,23 @@ const Auth = () => {
         variant: "destructive"
       });
     } else {
-      setRegistrationComplete(true);
       setPassword('');
       setConfirmPassword('');
-      setActiveTab('signin');
       toast({
-        title: "Account created",
-        description: "To grant admin access, open users in Firestore and set admin to true on this account's document (document ID is its Firebase UID)."
+        title: "Account Created!",
+        description: "Set admin: true on your UID in Firestore. You will be redirected automatically once granted."
       });
     }
     
     setLoading(false);
+  };
+
+  const handleCopyUid = () => {
+    if (!user?.uid) return;
+    navigator.clipboard.writeText(user.uid);
+    setCopiedUid(true);
+    toast({ title: "Copied!", description: "UID copied to clipboard." });
+    setTimeout(() => setCopiedUid(false), 2000);
   };
 
   return (
@@ -107,10 +124,52 @@ const Auth = () => {
             SkyLife Medical Admin
           </CardTitle>
           <CardDescription>
-            Sign in with the Firebase account configured as the site admin.
+            Sign in or create an account to manage clinic blog posts.
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {user && !isAdmin && (
+            <div className="mb-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-900 dark:text-amber-200 space-y-3">
+              <div className="flex items-center gap-2 font-medium text-sm text-amber-700 dark:text-amber-400">
+                <Clock className="h-4 w-4 animate-spin shrink-0" />
+                <span>Waiting for Admin Access</span>
+              </div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Logged in as <strong className="text-foreground">{user.email}</strong>. In Firebase Console Firestore, set <code className="bg-background px-1.5 py-0.5 rounded font-mono text-foreground font-semibold">admin: true</code> on document ID:
+              </p>
+              <div className="flex items-center gap-2">
+                <Input
+                  readOnly
+                  value={user.uid}
+                  className="font-mono text-xs bg-background h-8"
+                />
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={handleCopyUid}
+                  className="h-8 px-2.5 shrink-0 text-xs gap-1"
+                >
+                  {copiedUid ? <Check className="h-3.5 w-3.5 text-green-600" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copiedUid ? "Copied" : "Copy UID"}
+                </Button>
+              </div>
+              <div className="flex items-center justify-between pt-1 border-t border-amber-500/15 text-xs">
+                <span className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400 text-[11px]">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Auto-redirects upon Firestore update
+                </span>
+                <button
+                  type="button"
+                  onClick={() => signOut()}
+                  className="text-muted-foreground hover:text-foreground text-xs inline-flex items-center gap-1 underline underline-offset-2"
+                >
+                  <LogOut className="h-3 w-3" />
+                  Sign out
+                </button>
+              </div>
+            </div>
+          )}
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'signin' | 'signup')} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">Sign In</TabsTrigger>

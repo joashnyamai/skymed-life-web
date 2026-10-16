@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
-import { Plus, Edit, Trash2, LogOut } from 'lucide-react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { Plus, Edit, Trash2, LogOut, BookOpen, ArrowLeft } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -18,10 +18,19 @@ const Admin = () => {
   const { user, isAdmin, signOut, loading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isCreateIntent = searchParams.get('create') === 'true' || searchParams.get('new') === 'true';
+
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(isCreateIntent);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    if (isCreateIntent) {
+      setShowForm(true);
+    }
+  }, [isCreateIntent]);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -144,6 +153,12 @@ const Admin = () => {
     });
     setEditingPost(null);
     setShowForm(false);
+    if (searchParams.has('create') || searchParams.has('new')) {
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.delete('create');
+      nextParams.delete('new');
+      setSearchParams(nextParams, { replace: true });
+    }
   };
 
   const handleSignOut = async () => {
@@ -167,19 +182,39 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-muted/30 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Blog Admin</h1>
-          <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Blog Admin</h1>
+            <p className="text-sm text-muted-foreground mt-1">Create, edit, and publish health articles for SkyLife Clinic</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
             <Button
-              onClick={() => setShowForm(true)}
-              className="bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue"
+              asChild
+              variant="outline"
+              size="sm"
+              className="rounded-xl"
+            >
+              <Link to="/blog">
+                <BookOpen className="h-4 w-4 mr-2" />
+                View Blog
+              </Link>
+            </Button>
+            <Button
+              onClick={() => {
+                resetForm();
+                setShowForm(true);
+              }}
+              size="sm"
+              className="bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue font-semibold rounded-xl"
             >
               <Plus className="h-4 w-4 mr-2" />
               New Post
             </Button>
             <Button
               onClick={handleSignOut}
-              variant="outline"
+              variant="ghost"
+              size="sm"
+              className="rounded-xl text-muted-foreground hover:text-destructive"
             >
               <LogOut className="h-4 w-4 mr-2" />
               Sign Out

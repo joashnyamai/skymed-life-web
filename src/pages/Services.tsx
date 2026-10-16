@@ -1,4 +1,4 @@
-﻿import {
+import {
   Stethoscope, Users, Heart, Baby, FlaskConical, Monitor,
   Pill, Activity, Shield, Clock, CheckCircle, ArrowRight, MessageCircle
 } from "lucide-react";
@@ -96,44 +96,48 @@ const Services = () => {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="gradient-hero dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-950 py-12 md:py-16 border-b border-border" aria-labelledby="services-h1">
+      <section className="gradient-hero dark:bg-gradient-to-br dark:from-slate-900 dark:to-slate-950 py-16 md:py-20 border-b border-border/80" aria-labelledby="services-h1">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-block px-4 py-1.5 rounded-full bg-medical-tealLight dark:bg-medical-teal/15 text-medical-teal text-sm font-semibold mb-5">
-            Comprehensive Care
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-medical-lightBlue dark:bg-medical-blue/20 text-medical-blue dark:text-sky-300 text-xs sm:text-sm font-bold uppercase tracking-wider mb-5 border border-medical-blue/20 shadow-xs">
+            Comprehensive Clinical Care
           </div>
-          <h1 id="services-h1" className="text-4xl md:text-5xl font-bold text-foreground mb-5">
-            Our Medical Services
+          <h1 id="services-h1" className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground mb-6 tracking-tight text-balance">
+            Our Medical Specialties & Services
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            We provide comprehensive healthcare services with experienced professionals,
-            modern equipment, and a commitment to your wellbeing.
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Delivering accessible, evidence-based healthcare across Kenya with experienced clinical staff, modern diagnostic laboratories, and dedicated telemedicine options.
           </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-12 md:py-16 bg-muted/20" aria-label="Available services">
+      <section className="py-16 md:py-20 bg-muted/20" aria-label="Available services">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, i) => (
               <article
                 key={service.title}
-                className="group bg-white dark:bg-card rounded-2xl p-6 border border-border shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 animate-fade-in flex flex-col"
+                className="group relative bg-card rounded-3xl p-7 border border-border/70 hover:border-medical-blue/40 shadow-sm hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 animate-fade-in flex flex-col justify-between"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5 ${service.iconBg} transition-transform duration-300 group-hover:scale-110`}>
-                  <service.icon className="h-6 w-6" aria-hidden="true" />
+                <div>
+                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5 ${service.iconBg} transition-transform duration-300 group-hover:scale-110 shadow-sm`}>
+                    <service.icon className="h-7 w-7" aria-hidden="true" />
+                  </div>
+                  <h2 className="text-xl font-bold text-foreground mb-2.5 tracking-tight">{service.title}</h2>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">{service.description}</p>
                 </div>
-                <h2 className="text-base font-bold text-foreground mb-2">{service.title}</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">{service.description}</p>
-                <ul className="space-y-2 mt-auto" role="list" aria-label={`${service.title} features`}>
-                  {service.features.map((feat) => (
-                    <li key={feat} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <CheckCircle className="h-4 w-4 text-medical-teal flex-shrink-0" aria-hidden="true" />
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
+                <div className="pt-4 border-t border-border/50">
+                  <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block mb-3">Key Highlights</span>
+                  <ul className="space-y-2.5" role="list" aria-label={`${service.title} features`}>
+                    {service.features.map((feat) => (
+                      <li key={feat} className="flex items-center gap-2.5 text-xs sm:text-sm text-foreground/80 font-medium">
+                        <CheckCircle className="h-4 w-4 text-medical-blue shrink-0" aria-hidden="true" />
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </article>
             ))}
           </div>
@@ -141,28 +145,31 @@ const Services = () => {
       </section>
 
       {/* Info Section */}
-      <section className="py-14 bg-white dark:bg-card border-y border-border">
+      <section className="py-16 md:py-20 bg-card/60 backdrop-blur-md border-y border-border/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Hours */}
-            <div className="rounded-2xl border border-medical-teal/20 bg-medical-tealLight/50 dark:bg-medical-teal/10 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-medical-teal/20 flex items-center justify-center flex-shrink-0">
-                  <Clock className="h-5 w-5 text-medical-teal" aria-hidden="true" />
+            <div className="rounded-3xl border border-medical-blue/20 bg-gradient-to-br from-medical-lightBlue/60 to-medical-lightBlue/20 dark:from-medical-blue/10 dark:to-transparent p-7 md:p-9 shadow-sm">
+              <div className="flex items-center gap-3.5 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-medical-blue text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+                  <Clock className="h-6 w-6" aria-hidden="true" />
                 </div>
-                <h2 className="text-lg font-bold text-foreground">Operating Hours</h2>
+                <div>
+                  <h2 className="text-xl font-bold text-foreground tracking-tight">Operating Schedule</h2>
+                  <p className="text-xs text-muted-foreground">Always ready to attend to you</p>
+                </div>
               </div>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-medical-teal/10">
-                  <span className="font-medium text-foreground">Monday – Sunday</span>
-                  <span className="text-medical-teal font-bold">8:00 AM – 9:00 PM</span>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center py-3 border-b border-medical-blue/15">
+                  <span className="text-sm font-semibold text-foreground">Monday – Sunday</span>
+                  <span className="text-base font-extrabold text-medical-blue dark:text-sky-400">8:00 AM – 9:00 PM</span>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Open every day of the week including weekends and public holidays.
+                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                  Open every single day of the week, including weekends and public holidays, for emergency, walk-in, and scheduled appointments.
                 </p>
                 <Button
                   asChild
-                  className="w-full mt-3 bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue rounded-xl"
+                  className="w-full mt-2 bg-medical-lightBlue hover:bg-medical-blue/15 text-medical-blue font-bold rounded-2xl py-6 text-sm border border-medical-blue/30 shadow-xs"
                 >
                   <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2" aria-label="Book an appointment on WhatsApp">
                     <MessageCircle className="h-4 w-4" aria-hidden="true" />
@@ -173,23 +180,26 @@ const Services = () => {
             </div>
 
             {/* Insurance */}
-            <div className="rounded-2xl border border-border bg-white dark:bg-card p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-medical-lightBlue dark:bg-medical-blue/15 flex items-center justify-center flex-shrink-0">
-                  <Shield className="h-5 w-5 text-medical-blue" aria-hidden="true" />
+            <div className="rounded-3xl border border-border/80 bg-card p-7 md:p-9 shadow-sm">
+              <div className="flex items-center gap-3.5 mb-6">
+                <div className="w-12 h-12 rounded-2xl bg-medical-lightOrange text-medical-orange flex items-center justify-center flex-shrink-0 shadow-sm border border-medical-orange/20">
+                  <Shield className="h-6 w-6" aria-hidden="true" />
                 </div>
-                <h2 className="text-lg font-bold text-foreground">Accepted Insurance</h2>
+                <div>
+                  <h2 className="text-xl font-bold text-foreground tracking-tight">Accepted Health Insurance</h2>
+                  <p className="text-xs text-muted-foreground">Seamless coverage with leading providers</p>
+                </div>
               </div>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4" role="list">
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-5" role="list">
                 {insuranceProviders.map((p) => (
-                  <li key={p} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <CheckCircle className="h-4 w-4 text-medical-teal flex-shrink-0" aria-hidden="true" />
-                    {p}
+                  <li key={p} className="flex items-center gap-2 text-xs sm:text-sm text-foreground/80 font-medium p-2 rounded-xl bg-muted/40 border border-border/40">
+                    <CheckCircle className="h-4 w-4 text-medical-orange shrink-0" aria-hidden="true" />
+                    <span>{p}</span>
                   </li>
                 ))}
               </ul>
-              <p className="text-xs text-muted-foreground border-t border-border pt-3">
-                Please contact us to verify your specific insurance coverage and benefits before your appointment.
+              <p className="text-xs text-muted-foreground border-t border-border/60 pt-4 leading-relaxed">
+                Contact our desk at any time to verify specific coverages, pre-authorizations, and copay requirements.
               </p>
             </div>
           </div>
@@ -197,20 +207,22 @@ const Services = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-14 md:py-16 bg-medical-lightBlue relative overflow-hidden" aria-labelledby="services-cta">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.35),transparent_60%)]" aria-hidden="true" />
+      <section className="py-16 md:py-20 bg-gradient-to-br from-medical-lightBlue/90 via-sky-50 to-medical-lightOrange/60 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 relative overflow-hidden" aria-labelledby="services-cta">
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 id="services-cta" className="text-3xl md:text-4xl font-bold text-foreground mb-5">
-            Book Your Appointment Today
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-medical-lightOrange text-medical-orange border border-medical-orange/30 text-xs font-bold uppercase tracking-wider mb-5">
+            Get In Touch
+          </div>
+          <h2 id="services-cta" className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-5 tracking-tight text-balance">
+            Book Your Consultation Today
           </h2>
-          <p className="text-lg text-medical-gray mb-8 max-w-xl mx-auto">
-            Experience quality healthcare with our professional team. We are here to take care of your health needs.
+          <p className="text-base sm:text-lg text-muted-foreground mb-9 max-w-xl mx-auto leading-relaxed">
+            Experience quality healthcare designed around your schedule and wellness needs.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
               asChild
               size="lg"
-              className="bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange font-bold px-8 py-6 text-base rounded-xl shadow-lg"
+              className="w-full sm:w-auto bg-medical-lightOrange hover:bg-medical-orange/20 text-medical-orange font-extrabold px-8 py-6 text-base rounded-2xl shadow-sm hover:shadow-md border border-medical-orange/30"
             >
               <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2" aria-label="Book an appointment on WhatsApp">
                 <MessageCircle className="h-5 w-5" aria-hidden="true" />
@@ -221,10 +233,10 @@ const Services = () => {
               asChild
               variant="outline"
               size="lg"
-              className="border-2 border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue font-semibold px-8 py-6 text-base rounded-xl"
+              className="w-full sm:w-auto border-2 border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue dark:hover:bg-medical-blue/15 font-bold px-8 py-6 text-base rounded-2xl"
             >
               <Link to="/contact" className="flex items-center justify-center gap-2">
-                Contact Us
+                <span>Contact Clinic</span>
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </Link>
             </Button>

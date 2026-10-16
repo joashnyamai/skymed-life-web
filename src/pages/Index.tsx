@@ -1,4 +1,4 @@
-﻿import {
+import {
   ArrowRight, Phone, Users, Award, Clock, CheckCircle,
   Heart, Stethoscope, Baby, FlaskConical, Monitor,
   Shield, Star, MessageCircle
@@ -70,32 +70,35 @@ const Index = () => {
             {/* Left: Content */}
             <div className="animate-fade-in">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-medical-tealLight dark:bg-medical-teal/20 text-medical-teal dark:text-medical-teal text-sm font-medium mb-6 border border-medical-teal/20">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse-slow" aria-hidden="true" />
-                <span>Open Today · 8 AM – 9 PM</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-medical-lightBlue dark:bg-medical-blue/20 text-medical-blue dark:text-sky-300 text-xs sm:text-sm font-semibold mb-6 border border-medical-blue/20 shadow-sm backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                <span>Open Today · 8:00 AM – 9:00 PM</span>
+                <span className="text-muted-foreground/60">•</span>
+                <span className="text-muted-foreground font-normal hidden sm:inline">Mon – Sun</span>
               </div>
 
               <h1
                 id="hero-heading"
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.12] mb-5 text-balance"
+                className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.12] mb-5 tracking-tight text-balance"
               >
                 Empowering Health,
-                <span className="block text-medical-teal mt-1">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-medical-blue via-sky-600 to-medical-orange mt-1">
                   Enriching Lives
                 </span>
               </h1>
 
-              <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                Your trusted healthcare partner in Kisumu County. We provide comprehensive
-                medical services with compassionate care, modern facilities, and experienced
-                professionals.
+              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl">
+                Your trusted healthcare partner across Kenya. We deliver patient-centered clinical excellence, modern laboratory diagnostics, and compassionate family care tailored to your wellbeing.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue font-semibold px-7 py-6 text-base shadow-md hover:shadow-lg transition-all duration-200 rounded-xl"
+                  className="bg-medical-lightOrange hover:bg-medical-orange/20 text-medical-orange font-bold px-7 py-6 text-base shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl border border-medical-orange/30 group"
                 >
                   <a
                     href={WHATSAPP_BOOKING_URL}
@@ -104,7 +107,7 @@ const Index = () => {
                     className="flex items-center justify-center gap-2"
                     aria-label="Book an appointment on WhatsApp"
                   >
-                    <MessageCircle className="h-5 w-5" aria-hidden="true" />
+                    <MessageCircle className="h-5 w-5 text-medical-orange group-hover:scale-110 transition-transform" aria-hidden="true" />
                     <span>Book on WhatsApp</span>
                   </a>
                 </Button>
@@ -112,20 +115,25 @@ const Index = () => {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="border-2 border-medical-teal text-medical-teal hover:bg-medical-tealLight dark:hover:bg-medical-teal/10 font-semibold px-7 py-6 text-base rounded-xl transition-all duration-200"
+                  className="border-2 border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue dark:hover:bg-medical-blue/15 font-semibold px-7 py-6 text-base rounded-2xl transition-all duration-200 group"
                 >
                   <Link to="/services" className="flex items-center justify-center gap-2">
-                    <span>Our Services</span>
-                    <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                    <span>Explore Services</span>
+                    <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </Link>
                 </Button>
               </div>
 
               {/* Trust signals */}
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
-                {["Licensed Healthcare Provider", "SHA Accepted", "Open 7 Days"].map((t) => (
-                  <div key={t} className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                    <CheckCircle className="h-4 w-4 text-medical-teal flex-shrink-0" aria-hidden="true" />
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2.5 pt-2">
+                {[
+                  "Licensed Healthcare Facility",
+                  "SHA Accepted Provider",
+                  "Telemedicine Consultations",
+                  "Open 7 Days a Week"
+                ].map((t) => (
+                  <div key={t} className="flex items-center gap-2 text-xs sm:text-sm font-medium text-muted-foreground">
+                    <CheckCircle className="h-4 w-4 text-medical-blue flex-shrink-0" aria-hidden="true" />
                     <span>{t}</span>
                   </div>
                 ))}
@@ -134,61 +142,70 @@ const Index = () => {
 
             {/* Right: Clinic Info Card */}
             <div className="animate-slide-in flex items-center justify-center">
-              <div className="relative w-full max-w-sm">
-                {/* Main card */}
-                <div className="bg-white dark:bg-card rounded-3xl shadow-card-hover p-6 border border-border">
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-medical-lightBlue flex items-center justify-center flex-shrink-0">
-                        <Heart className="h-5 w-5 text-medical-blue" aria-hidden="true" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-sm text-foreground">SkyLife Medical</div>
-                        <div className="text-xs text-muted-foreground">Healthcare Excellence</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-green-50 dark:bg-green-950/40 rounded-full border border-green-200 dark:border-green-800">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500" aria-hidden="true" />
-                      <span className="text-xs font-semibold text-green-700 dark:text-green-400">Open Now</span>
-                    </div>
-                  </div>
+              <div className="animate-slide-in flex items-center justify-center">
+                <div className="relative w-full max-w-md">
+                  {/* Glow backdrop */}
+                  <div className="absolute -inset-1.5 bg-gradient-to-r from-medical-blue/20 to-medical-orange/20 rounded-[2rem] blur-xl opacity-70 pointer-events-none" aria-hidden="true" />
 
-                  <div className="space-y-3">
-                    <div className="bg-muted/60 dark:bg-muted/30 rounded-xl p-3.5">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Clock className="h-4 w-4 text-medical-teal" aria-hidden="true" />
-                        <span className="text-xs font-semibold text-foreground uppercase tracking-wide">Operating Hours</span>
+                  {/* Main card */}
+                  <div className="relative bg-white/90 dark:bg-card/90 backdrop-blur-xl rounded-3xl shadow-card-hover p-6 sm:p-7 border border-border/80">
+                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-border/60">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-medical-lightBlue to-sky-100 dark:from-medical-blue/20 dark:to-sky-900/30 flex items-center justify-center flex-shrink-0 shadow-sm border border-medical-blue/15">
+                          <Heart className="h-6 w-6 text-medical-blue" aria-hidden="true" />
+                        </div>
+                        <div>
+                          <div className="font-bold text-base text-foreground tracking-tight">SkyLife Medical</div>
+                          <div className="text-xs font-medium text-muted-foreground">Certified Healthcare Clinic</div>
+                        </div>
                       </div>
-                      <div className="text-sm text-muted-foreground">Monday – Sunday</div>
-                      <div className="text-sm font-bold text-medical-teal">8:00 AM – 9:00 PM</div>
+                      <div className="flex items-center gap-2 px-3 py-1 bg-green-500/10 text-green-600 dark:text-green-400 rounded-full border border-green-500/20 text-xs font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" aria-hidden="true" />
+                        <span>Open Now</span>
+                      </div>
                     </div>
 
-                    <div className="bg-muted/60 dark:bg-muted/30 rounded-xl p-3.5">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Phone className="h-4 w-4 text-medical-teal" aria-hidden="true" />
-                        <span className="text-xs font-semibold text-foreground uppercase tracking-wide">Clinic Contact</span>
+                    <div className="space-y-3.5">
+                      <div className="bg-muted/40 dark:bg-muted/20 hover:bg-muted/60 transition-colors rounded-2xl p-4 border border-border/40">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Clock className="h-4 w-4 text-medical-blue" aria-hidden="true" />
+                          <span className="text-xs font-bold text-foreground uppercase tracking-wider">Operating Schedule</span>
+                        </div>
+                        <div className="flex items-baseline justify-between">
+                          <span className="text-xs text-muted-foreground">Monday through Sunday</span>
+                          <span className="text-sm font-extrabold text-medical-blue dark:text-sky-400">8:00 AM – 9:00 PM</span>
+                        </div>
                       </div>
-                      <a
-                        href="tel:+254101517171"
-                        className="text-sm font-bold text-medical-teal hover:underline"
-                        aria-label="Call clinic: +254 101 517 171"
+
+                      <div className="bg-muted/40 dark:bg-muted/20 hover:bg-muted/60 transition-colors rounded-2xl p-4 border border-border/40">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Phone className="h-4 w-4 text-medical-orange" aria-hidden="true" />
+                          <span className="text-xs font-bold text-foreground uppercase tracking-wider">Direct Clinical Desk</span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-muted-foreground">Call & Consultations</span>
+                          <a
+                            href="tel:+254101517171"
+                            className="text-sm font-bold text-medical-orange hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-orange rounded"
+                            aria-label="Call clinic: +254 101 517 171"
+                          >
+                            +254 101 517 171
+                          </a>
+                        </div>
+                      </div>
+
+                      <Button
+                        asChild
+                        className="w-full bg-medical-lightBlue hover:bg-medical-blue/15 text-medical-blue font-bold rounded-2xl py-6 text-sm transition-all duration-200 border border-medical-blue/20 shadow-sm"
                       >
-                        +254 101 517 171
-                      </a>
+                        <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2" aria-label="Book an appointment on WhatsApp">
+                          <MessageCircle className="h-4 w-4 text-medical-blue" aria-hidden="true" />
+                          Instant WhatsApp Booking
+                        </a>
+                      </Button>
                     </div>
-
-                    <Button
-                      asChild
-                      className="w-full bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue rounded-xl mt-1 font-medium"
-                    >
-                      <a href={WHATSAPP_BOOKING_URL} target="_blank" rel="noopener noreferrer" aria-label="Book an appointment on WhatsApp">
-                        <MessageCircle className="h-4 w-4 mr-2" aria-hidden="true" />
-                        Book on WhatsApp
-                      </a>
-                    </Button>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -196,22 +213,22 @@ const Index = () => {
       </section>
 
       {/* ====================== STATS ====================== */}
-      <section className="py-14 bg-white dark:bg-card border-y border-border" aria-label="Clinic statistics">
+      <section className="py-12 md:py-16 bg-card/60 backdrop-blur-md border-y border-border/80" aria-label="Clinic statistics">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {stats.map((stat, i) => (
               <div
                 key={stat.label}
-                className="text-center animate-fade-in"
-                style={{ animationDelay: `${i * 80}ms` }}
+                className="group relative p-6 rounded-3xl bg-background/60 hover:bg-background border border-border/60 hover:border-medical-blue/30 shadow-sm hover:shadow-card transition-all duration-300 text-center animate-fade-in"
+                style={{ animationDelay: `${i * 90}ms` }}
               >
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-medical-tealLight dark:bg-medical-teal/15 mb-3 mx-auto">
-                  <stat.icon className="h-7 w-7 text-medical-teal" aria-hidden="true" />
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-medical-lightBlue dark:bg-medical-blue/15 mb-3 group-hover:scale-110 transition-transform duration-300 border border-medical-blue/15">
+                  <stat.icon className="h-7 w-7 text-medical-blue" aria-hidden="true" />
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-foreground tabular-nums mb-1">
+                <div className="text-3xl md:text-4xl font-extrabold text-foreground tabular-nums mb-1 tracking-tight">
                   {stat.number}
                 </div>
-                <div className="text-sm font-medium text-muted-foreground">{stat.label}</div>
+                <div className="text-xs sm:text-sm font-medium text-muted-foreground">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -220,60 +237,61 @@ const Index = () => {
 
       {/* ====================== SERVICES ====================== */}
       <section
-        className="py-14 md:py-16 bg-muted/30 dark:bg-background/50"
+        className="py-16 md:py-20 bg-muted/20 dark:bg-background/40"
         aria-labelledby="services-heading"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-14">
-            <div className="inline-block px-4 py-1.5 rounded-full bg-medical-tealLight dark:bg-medical-teal/15 text-medical-teal text-sm font-semibold mb-4">
-              What We Offer
+            <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-medical-lightBlue dark:bg-medical-blue/15 text-medical-blue text-xs sm:text-sm font-bold uppercase tracking-wider mb-4 border border-medical-blue/20">
+              Clinical Excellence
             </div>
             <h2
               id="services-heading"
-              className="text-3xl md:text-4xl font-bold text-foreground mb-4"
+              className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-4 tracking-tight"
             >
               Our Medical Services
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive healthcare services delivered with expertise, compassion, and
-              state-of-the-art facilities.
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Comprehensive medical care delivered with certified expertise, modern diagnostics, and dedicated patient attention.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, i) => (
               <article
                 key={service.title}
-                className="group bg-white dark:bg-card rounded-2xl p-6 border border-border shadow-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 animate-fade-in"
+                className="group relative bg-card rounded-3xl p-7 border border-border/70 hover:border-medical-blue/40 shadow-sm hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between animate-fade-in"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5 ${service.color} transition-all duration-300 group-hover:scale-110`}>
-                  <service.icon className="h-6 w-6" aria-hidden="true" />
+                <div>
+                  <div className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-5 ${service.color} transition-all duration-300 group-hover:scale-110 shadow-sm`}>
+                    <service.icon className="h-7 w-7" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight">{service.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">{service.description}</p>
                 </div>
-                <h3 className="text-base font-bold text-foreground mb-2">{service.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">{service.description}</p>
                 <Link
                   to="/services"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-medical-teal hover:text-medical-tealDark transition-colors"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-medical-blue hover:text-medical-orange transition-colors pt-4 border-t border-border/40 group-hover:border-border"
                   aria-label={`Learn more about ${service.title}`}
                 >
-                  Learn More
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                  <span>Learn More</span>
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </Link>
               </article>
             ))}
           </div>
 
-          <div className="text-center mt-10">
+          <div className="text-center mt-12">
             <Button
               asChild
               size="lg"
               variant="outline"
-              className="border-2 border-medical-teal text-medical-teal hover:bg-medical-tealLight dark:hover:bg-medical-teal/10 font-semibold px-8 rounded-xl transition-all duration-200"
+              className="border-2 border-medical-blue/40 text-medical-blue hover:bg-medical-lightBlue dark:hover:bg-medical-blue/15 font-bold px-8 py-6 rounded-2xl text-base transition-all duration-200"
             >
               <Link to="/services" className="flex items-center gap-2">
                 <Shield className="h-5 w-5" aria-hidden="true" />
-                View All Services
+                View All Medical Specialties
               </Link>
             </Button>
           </div>
@@ -282,29 +300,28 @@ const Index = () => {
 
       {/* ====================== CTA ====================== */}
       <section
-        className="relative overflow-hidden py-14 md:py-16 bg-medical-lightBlue"
+        className="relative overflow-hidden py-16 md:py-20 bg-gradient-to-br from-medical-lightBlue/90 via-sky-50 to-medical-lightOrange/60 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 border-t border-border/60"
         aria-labelledby="cta-heading"
       >
-        {/* Decorative */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.08),transparent_50%)]" aria-hidden="true" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-medical-lightOrange text-medical-orange border border-medical-orange/30 text-xs font-bold uppercase tracking-wider mb-5">
+            Book Today
+          </div>
           <h2
             id="cta-heading"
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-5"
+            className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-5 tracking-tight text-balance"
           >
-            Ready to Take Care of Your Health?
+            Ready to Take Control of Your Health?
           </h2>
-          <p className="text-lg text-medical-gray mb-8 max-w-2xl mx-auto leading-relaxed">
-            Schedule your appointment today and experience quality healthcare that puts your
-            wellbeing first.
+          <p className="text-base sm:text-lg text-muted-foreground mb-9 max-w-2xl mx-auto leading-relaxed">
+            Schedule your appointment today or connect with our clinical team for telemedicine and routine consultations.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
               asChild
               size="lg"
-              className="bg-medical-lightOrange hover:bg-medical-orange/15 text-medical-orange font-bold px-8 py-6 text-base rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+              className="w-full sm:w-auto bg-medical-lightOrange hover:bg-medical-orange/20 text-medical-orange font-extrabold px-8 py-6 text-base rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 border border-medical-orange/30"
             >
               <a
                 href={WHATSAPP_BOOKING_URL}
@@ -321,21 +338,26 @@ const Index = () => {
               asChild
               variant="outline"
               size="lg"
-              className="border-2 border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue font-semibold px-8 py-6 text-base rounded-xl transition-all duration-200"
+              className="w-full sm:w-auto border-2 border-medical-blue/30 text-medical-blue hover:bg-medical-lightBlue dark:hover:bg-medical-blue/15 font-bold px-8 py-6 text-base rounded-2xl transition-all duration-200"
             >
               <Link to="/contact" className="flex items-center justify-center gap-2">
-                <span>Contact Us</span>
+                <span>Contact Clinic</span>
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />
               </Link>
             </Button>
           </div>
 
           {/* Quick info pills */}
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {["Open 7 days a week", "Mon–Sun 8AM–9PM", "SHA Accepted"].map((info) => (
+          <div className="mt-10 flex flex-wrap justify-center gap-2.5">
+            {[
+              "Open 7 Days a Week",
+              "Mon–Sun: 8:00 AM – 9:00 PM",
+              "SHA Insurance Accepted",
+              "Fast Diagnostic Turnaround"
+            ].map((info) => (
               <div
                 key={info}
-                className="px-4 py-2 rounded-full bg-white/80 border border-medical-blue/15 text-sm text-medical-blue font-medium"
+                className="px-4 py-2 rounded-full bg-white/80 dark:bg-card/80 backdrop-blur-sm border border-medical-blue/15 text-xs sm:text-sm text-foreground font-medium shadow-xs"
               >
                 {info}
               </div>
