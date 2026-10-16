@@ -86,11 +86,10 @@ export const useAuth = () => {
         await firebaseSignOut(auth).catch(() => undefined);
       }
 
-      const message = error instanceof Error ? error.message : 'Unknown Firebase error';
       return {
         error: new Error(authAccountCreated
-          ? `Firebase Authentication created the account, but Firestore could not create its users profile: ${message}. Confirm Firestore Database exists and the latest firestore.rules are deployed.`
-          : message),
+          ? 'Account created but profile setup failed.'
+          : 'Account registration failed.'),
       };
     }
   };

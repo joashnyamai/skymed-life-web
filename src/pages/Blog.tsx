@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { listPublishedBlogPosts, type BlogPost } from "@/lib/blogPosts";
+import { getFriendlyErrorMessage } from "@/lib/friendlyError";
 
 const Blog = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -38,7 +39,7 @@ const Blog = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to fetch blog posts",
+        description: getFriendlyErrorMessage(error, "We couldn't load articles right now. Please try again later."),
         variant: "destructive"
       });
     } finally {

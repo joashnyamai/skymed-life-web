@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { createBlogPost, deleteBlogPost, listAllBlogPosts, updateBlogPost, type BlogPost } from '@/lib/blogPosts';
+import { getFriendlyErrorMessage } from '@/lib/friendlyError';
 
 const Admin = () => {
   const { user, isAdmin, signOut, loading } = useAuth();
@@ -38,7 +39,7 @@ const Admin = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to fetch posts",
+        description: getFriendlyErrorMessage(error, "We couldn't load posts. Please try again."),
         variant: "destructive"
       });
     }
@@ -90,7 +91,7 @@ const Admin = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: error instanceof Error ? error.message : 'Failed to save post',
+        description: getFriendlyErrorMessage(error, "We couldn't save this post. Please try again."),
         variant: "destructive"
       });
     } finally {

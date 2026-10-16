@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Eye, EyeOff, Heart } from 'lucide-react';
+import { getFriendlyErrorMessage } from '@/lib/friendlyError';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -39,7 +40,7 @@ const Auth = () => {
     if (error) {
       toast({
         title: "Sign in failed",
-        description: error.message,
+        description: getFriendlyErrorMessage(error, 'Please check your email and password, then try again.'),
         variant: "destructive"
       });
     } else {
@@ -71,7 +72,7 @@ const Auth = () => {
     if (error) {
       toast({
         title: "Sign up failed",
-        description: error.message,
+        description: getFriendlyErrorMessage(error, 'We could not create your account. Check your details and try again.'),
         variant: "destructive"
       });
     } else {
