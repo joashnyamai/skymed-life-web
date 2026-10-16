@@ -82,7 +82,7 @@ const Auth = () => {
       setActiveTab('signin');
       toast({
         title: "Account created",
-        description: "Copy this account's Firebase UID from Authentication → Users, configure it as the admin UID in the app and Firestore rules, then sign in."
+        description: "To grant admin access, open users in Firestore and set admin to true on this account's document (document ID is its Firebase UID)."
       });
     }
     

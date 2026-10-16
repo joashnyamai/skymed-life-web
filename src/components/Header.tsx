@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
-import logoAsset from "@/assets/skylife-logo.png.asset.json";
+import logo from "@/assets/skylife-logo.png";
 import { WHATSAPP_BOOKING_URL } from "@/lib/whatsapp";
 
 const Header = () => {
@@ -46,7 +46,7 @@ const Header = () => {
             aria-label="SkyLife Medical Clinic — Home"
           >
             <img
-              src={logoAsset.url}
+              src={logo}
               alt="SkyLife Medical Clinic — Empowering Health, Enriching Lives"
               className="h-11 w-auto object-contain md:h-14"
             />

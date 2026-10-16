@@ -4,7 +4,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
       return request.auth != null
-        && request.auth.uid == '7ExT7Lb3ykfaWOYudiXp15Ao5Xk2';
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.admin == true;
     }
 
     function hasValidPostFields() {
@@ -29,9 +29,27 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    match /users/{userId} {
+      allow get: if request.auth != null
+        && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.email == request.auth.token.email
+        && request.resource.data.admin == false;
+      allow update: if isAdmin()
+        || (request.auth != null
+          && request.auth.uid == userId
+          && request.resource.data.email == request.auth.token.email
+          && request.resource.data.admin == false);
+      allow delete: if isAdmin();
+    }
+
     // Allow admin users to seed and manage other collections without exposing them publicly.
     match /{collection}/{document=**} {
-      allow read, write: if collection != 'blog_posts' && isAdmin();
+      allow read, write: if collection != 'blog_posts'
+        && collection != 'users'
+        && isAdmin();
     }
   }
 }

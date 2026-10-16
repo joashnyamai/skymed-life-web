@@ -1,6 +1,6 @@
 ﻿import { MessageCircle, Mail, MapPin, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
-import logoAsset from "@/assets/skylife-logo.png.asset.json";
+import logo from "@/assets/skylife-logo.png";
 import { WHATSAPP_BOOKING_URL } from "@/lib/whatsapp";
 
 
@@ -16,7 +16,7 @@ const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2.5 mb-5">
               <img
-                src={logoAsset.url}
+                src={logo}
                 alt="SkyLife Medical Clinic — Empowering Health, Enriching Lives"
                 className="h-14 w-auto object-contain"
               />

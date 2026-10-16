@@ -62,15 +62,16 @@ This project is built with:
 
 ## Firebase setup
 
-The app uses Firebase Authentication (email/password) and Cloud Firestore for blog posts. Admin access uses a fixed Firebase UID; it does not require Cloud Functions or a paid Firebase plan.
+The app uses Firebase Authentication (email/password) and Cloud Firestore for blog posts and user roles. Admin roles are stored in `users/{uid}` and do not require Cloud Functions or a paid Firebase plan.
 
 1. In Firebase Console, enable **Authentication → Email/Password** and create a Cloud Firestore database.
 2. Copy `.env.example` to `.env.local` and fill in the Firebase web-app values.
-3. Sign up once at `/auth` with an email, password, and matching password confirmation. Signup signs the user out and returns to the sign-in tab.
-4. In **Authentication → Users**, copy the new account's UID. Set `VITE_FIREBASE_ADMIN_UID` in `.env.local` to that UID, and replace `REPLACE_WITH_ADMIN_FIREBASE_UID` in `firestore.rules` with the same UID.
-5. Deploy only Firestore rules with the Firebase CLI (`firebase deploy --project parkease-w6q19 --only firestore:rules`), restart Vite, then sign in with the configured account.
+3. Deploy `firestore.rules` with the Firebase CLI (`firebase deploy --project parkease-w6q19 --only firestore:rules`). This does not deploy or enable Cloud Functions.
+4. Sign up at `/auth`. Signup creates a `users/{uid}` document with the account email and `admin: false`, then signs out.
+5. To designate the initial admin, open **Authentication → Users**, copy that account's UID, then in **Firestore Database → Data** create a `users` collection document whose document ID is that UID. Add `email` (string, the account email) and `admin` (boolean, `true`). For future accounts, signup creates `users/{uid}` with `admin: false`; promote one by setting its `admin` field to boolean `true`.
+6. Sign in again with the admin account. Only users whose own `users/{uid}` document has `admin: true` can access admin features. Users cannot grant the role to themselves through the app.
 
-Without a trusted backend, automatically granting admin to whichever user signs up first cannot be secured against account-claiming races. This no-cost setup therefore requires an explicit UID allowlist; other signed-up accounts have no admin access. Deploying Firestore rules does not require enabling Cloud Functions or upgrading to Blaze.
+The Firestore Console is an administrator interface and can seed the first role document even when client rules deny writes. Deploying Firestore rules does not require enabling Cloud Functions or upgrading to Blaze.
 
 Blog documents are stored in the `blog_posts` collection. Existing Supabase users and blog data are not automatically transferred; export/import posts into Firestore and recreate admin accounts in Firebase before retiring the old Supabase project.
 

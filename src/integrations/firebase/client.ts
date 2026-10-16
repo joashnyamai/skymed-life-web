@@ -21,7 +21,6 @@ export const firebaseApp = isFirebaseConfigured
 
 export const auth = firebaseApp ? getAuth(firebaseApp) : null;
 export const db = firebaseApp ? getFirestore(firebaseApp) : null;
-export const configuredAdminUid = import.meta.env.VITE_FIREBASE_ADMIN_UID?.trim() ?? '';
 
 export const getFirebaseAuth = () => {
   if (!auth) {

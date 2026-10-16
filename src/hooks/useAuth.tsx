@@ -6,7 +6,13 @@ import {
   signOut as firebaseSignOut,
   type User,
 } from 'firebase/auth';
-import { auth, configuredAdminUid, getFirebaseAuth } from '@/integrations/firebase/client';
+import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { auth, getFirebaseAuth, getFirebaseDb } from '@/integrations/firebase/client';
+
+const userHasAdminRole = async (user: User) => {
+  const userSnapshot = await getDoc(doc(getFirebaseDb(), 'users', user.uid));
+  return userSnapshot.exists() && userSnapshot.data().admin === true;
+};
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -30,8 +36,13 @@ export const useAuth = () => {
         return;
       }
 
-      setIsAdmin(Boolean(configuredAdminUid) && currentUser.uid === configuredAdminUid);
-      setLoading(false);
+      try {
+        setIsAdmin(await userHasAdminRole(currentUser));
+      } catch {
+        setIsAdmin(false);
+      } finally {
+        setLoading(false);
+      }
     });
 
     return () => {
@@ -43,12 +54,15 @@ export const useAuth = () => {
   const signIn = async (email: string, password: string) => {
     try {
       const credential = await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
-      if (!configuredAdminUid || credential.user.uid !== configuredAdminUid) {
+      if (!(await userHasAdminRole(credential.user))) {
         await firebaseSignOut(getFirebaseAuth());
-        throw new Error('This account is not configured as the site admin. Set its Firebase user UID in VITE_FIREBASE_ADMIN_UID and firestore.rules.');
+        throw new Error('This account does not have the admin role. Ask an existing admin to enable it in the users collection.');
       }
       return { error: null };
     } catch (error) {
+      if (auth?.currentUser) {
+        await firebaseSignOut(auth).catch(() => undefined);
+      }
       return { error: error as Error };
     }
   };
@@ -56,6 +70,11 @@ export const useAuth = () => {
   const signUp = async (email: string, password: string) => {
     try {
       const credential = await createUserWithEmailAndPassword(getFirebaseAuth(), email, password);
+      await setDoc(doc(getFirebaseDb(), 'users', credential.user.uid), {
+        email: credential.user.email,
+        admin: false,
+        createdAt: serverTimestamp(),
+      });
       await firebaseSignOut(getFirebaseAuth());
 
       return { error: null };
