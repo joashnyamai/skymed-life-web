@@ -91,7 +91,7 @@ const Index = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl">
-                Your trusted healthcare partner across Kenya. We deliver patient-centered clinical excellence, modern laboratory diagnostics, and compassionate family care tailored to your wellbeing.
+                Your trusted healthcare partner. We deliver patient-centered clinical excellence, modern laboratory diagnostics, and compassionate family care tailored to your wellbeing.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
