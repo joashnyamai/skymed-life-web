@@ -68,8 +68,11 @@ export const useAuth = () => {
   };
 
   const signUp = async (email: string, password: string) => {
+    let authAccountCreated = false;
+
     try {
       const credential = await createUserWithEmailAndPassword(getFirebaseAuth(), email, password);
+      authAccountCreated = true;
       await setDoc(doc(getFirebaseDb(), 'users', credential.user.uid), {
         email: credential.user.email,
         admin: false,
@@ -79,7 +82,16 @@ export const useAuth = () => {
 
       return { error: null };
     } catch (error) {
-      return { error: error as Error };
+      if (authAccountCreated && auth?.currentUser) {
+        await firebaseSignOut(auth).catch(() => undefined);
+      }
+
+      const message = error instanceof Error ? error.message : 'Unknown Firebase error';
+      return {
+        error: new Error(authAccountCreated
+          ? `Firebase Authentication created the account, but Firestore could not create its users profile: ${message}. Confirm Firestore Database exists and the latest firestore.rules are deployed.`
+          : message),
+      };
     }
   };
 
