@@ -4,6 +4,7 @@ type CodedError = {
 };
 
 const friendlyMessages: Record<string, string> = {
+  'app/admin-role-required': 'This account is not an administrator. Please contact the site administrator for access.',
   'auth/email-already-in-use': 'An account with this email already exists. Try signing in instead.',
   'auth/invalid-email': 'Enter a valid email address and try again.',
   'auth/weak-password': 'Choose a stronger password with at least 6 characters.',

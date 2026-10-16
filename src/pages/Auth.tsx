@@ -19,6 +19,7 @@ const Auth = () => {
   const [showSignUpPassword, setShowSignUpPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [signInError, setSignInError] = useState('');
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
   const [registrationComplete, setRegistrationComplete] = useState(false);
   const { signIn, signUp, isAdmin } = useAuth();
@@ -34,23 +35,27 @@ const Auth = () => {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
-    const { error } = await signIn(email, password);
-    
-    if (error) {
-      toast({
-        title: "Sign in failed",
-        description: getFriendlyErrorMessage(error, 'Please check your email and password, then try again.'),
-        variant: "destructive"
-      });
-    } else {
-      toast({
-        title: "Welcome back!",
-        description: "Signed in. Admin access is required to manage blog posts."
-      });
+
+    try {
+      const { error } = await signIn(email, password);
+      if (error) {
+        const message = getFriendlyErrorMessage(error, 'Please check your email and password, then try again.');
+        setSignInError(message);
+        toast({ title: "Sign in failed", description: message, variant: "destructive" });
+      } else {
+        setSignInError('');
+        toast({
+          title: "Welcome back!",
+          description: "Signed in successfully."
+        });
+      }
+    } catch {
+      const message = 'We could not sign you in. Please check your details and try again.';
+      setSignInError(message);
+      toast({ title: "Sign in failed", description: message, variant: "destructive" });
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -119,7 +124,7 @@ const Auth = () => {
                     type="email"
                     placeholder="Email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => { setEmail(e.target.value); setSignInError(''); }}
                     required
                   />
                 </div>
@@ -128,7 +133,7 @@ const Auth = () => {
                     type={showSignInPassword ? 'text' : 'password'}
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => { setPassword(e.target.value); setSignInError(''); }}
                     required
                     autoComplete="current-password"
                     className="pr-12"
@@ -143,6 +148,11 @@ const Auth = () => {
                     {showSignInPassword ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
                   </button>
                 </div>
+                {signInError && (
+                  <p className="rounded-md bg-medical-lightOrange px-3 py-2 text-sm text-medical-orange" role="alert">
+                    {signInError}
+                  </p>
+                )}
                 <Button 
                   type="submit" 
                   className="w-full bg-medical-lightBlue hover:bg-medical-blue/10 text-medical-blue"

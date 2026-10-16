@@ -56,7 +56,7 @@ export const useAuth = () => {
       const credential = await signInWithEmailAndPassword(getFirebaseAuth(), email, password);
       if (!(await userHasAdminRole(credential.user))) {
         await firebaseSignOut(getFirebaseAuth());
-        throw new Error('This account does not have the admin role. Ask an existing admin to enable it in the users collection.');
+        throw Object.assign(new Error('Admin role required'), { code: 'app/admin-role-required' });
       }
       return { error: null };
     } catch (error) {
