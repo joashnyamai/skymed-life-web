@@ -9,7 +9,6 @@ import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Eye, EyeOff, Heart } from 'lucide-react';
-import { isFirebaseConfigured } from '@/integrations/firebase/client';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -106,11 +105,6 @@ const Auth = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {!isFirebaseConfigured && (
-            <p className="mb-4 rounded-lg bg-medical-lightBlue p-3 text-sm text-medical-blue" role="status">
-              Firebase is not configured yet. Add the Firebase project values to your local .env file to enable sign-in.
-            </p>
-          )}
           <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'signin' | 'signup')} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="signin">Sign In</TabsTrigger>
